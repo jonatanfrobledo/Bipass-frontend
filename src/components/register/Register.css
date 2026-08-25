@@ -1,0 +1,150 @@
+/* ============================================================
+   ESTILOS GENERALES DE REGISTRO - ESTÉTICA BIPASS
+   ============================================================ */
+
+.register-wrapper {
+  background-color: #0d0a1a;
+  overflow-x: hidden;
+}
+
+/* Columna de Fondo e Imagen/Video */
+.register-bg {
+  background: linear-gradient(150deg, #0f1d33 0%, #170635 100%);
+}
+
+.register-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(13, 10, 26, 0.2),
+    rgba(13, 10, 26, 0.8)
+  );
+}
+
+/* Card con Glassmorphism */
+.register-card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(20, 15, 38, 0.75) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 229, 255, 0.2) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Títulos y Subtítulos */
+.register-title {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+  margin-bottom: 4px;
+}
+
+.register-subtitle {
+  color: #a0a5c0;
+  font-size: 0.85rem;
+  margin-bottom: 0;
+}
+
+/* Custom Labels e Inputs */
+.input-label {
+  color: #00e5ff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.custom-input {
+  background-color: rgba(10, 6, 22, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  padding: 0.6rem 0.85rem !important;
+  font-size: 0.9rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.custom-input::placeholder {
+  color: #6c757d !important;
+}
+
+.custom-input:focus {
+  border-color: #00e5ff !important;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.4) !important;
+  outline: none !important;
+}
+
+/* Estilo específico para input tipo Date */
+.date-input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+/* Estado de Error */
+.input-error {
+  border-color: #ff0055 !important;
+  box-shadow: 0 0 8px rgba(255, 0, 85, 0.5) !important;
+}
+
+.error-text {
+  color: #ff4d79;
+  font-size: 0.75rem;
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+/* Botón Neón Primario */
+.neon-btn {
+  background: linear-gradient(90deg, #00e5ff 0%, #7b2cbf 100%) !important;
+  border: none !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
+  padding: 0.75rem !important;
+  border-radius: 10px !important;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease !important;
+}
+
+.neon-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.6) !important;
+}
+
+/* Separador y Links */
+.register-divider {
+  border-color: rgba(255, 255, 255, 0.15);
+  margin: 1.2rem 0;
+}
+
+.login-link-text {
+  color: #a0a5c0;
+  font-size: 0.85rem;
+}
+
+.neon-link {
+  color: #00e5ff !important;
+  text-decoration: none !important;
+  font-weight: 600;
+  transition: text-shadow 0.2s ease;
+}
+
+.neon-link:hover {
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.8);
+}

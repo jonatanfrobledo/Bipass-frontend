@@ -1,0 +1,501 @@
+/* ==========================================================================
+   Dashboard Billboard Style - Dark Glassmorphism Theme
+   ========================================================================== */
+
+:root {
+  --bg-dark-main: #0b0f19;
+  --bg-dark-secondary: #111827;
+  --glass-bg: rgba(17, 24, 39, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --accent-purple: #8b5cf6;
+  --accent-purple-hover: #7c3aed;
+  --accent-cyan: #3b82f6;
+  --text-main: #f3f4f6;
+  --text-muted: #f8fbff;
+}
+.text-muted, 
+p.text-muted {
+  color: #d1d5db !important; /* Gris claro de alto contraste */
+  opacity: 0.9;
+}
+
+/* Opcional: Clase personalizada más limpia si prefieres no usar text-muted */
+.text-description {
+  color: #e5e7eb;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.dashboard-wrapper {
+  background-color: var(--bg-dark-main);
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.12) 0%, transparent 40%);
+  min-height: 100vh;
+  color: var(--text-main);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* --- Loading Screen --- */
+.dashboard-loading-screen {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-dark-main);
+}
+
+.loading-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.text-purple {
+  color: var(--accent-purple) !important;
+}
+
+.text-cyan {
+  color: var(--accent-cyan) !important;
+}
+
+.text-purple-accent {
+  color: #c4b5fd !important;
+  letter-spacing: 1.5px;
+  font-size: 0.8rem;
+}
+
+.tracking-wider {
+  letter-spacing: 0.1em;
+}
+
+/* --- Hero Banner --- */
+.dashboard-hero-container {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.hero-video-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.35) contrast(1.1);
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(11, 15, 25, 0.4) 0%, var(--bg-dark-main) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+.hero-badge {
+  background: rgba(139, 92, 246, 0.2);
+  color: #c4b5fd;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.welcome-title {
+  color: #ffffff;
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.highlight-text {
+  background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.welcome-subtitle {
+  color: var(--text-muted);
+  font-size: 1.15rem;
+  font-weight: 400;
+  max-width: 650px;
+  margin: 0.5rem auto 0;
+}
+
+.btn-hero-cta {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-hover)) !important;
+  border: none !important;
+  padding: 0.7rem 1.6rem !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
+  transition: all 0.3s ease !important;
+}
+
+.btn-hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+}
+
+.btn-hero-secondary {
+  border: 1px solid var(--glass-border) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  padding: 0.7rem 1.6rem !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease !important;
+}
+
+.btn-hero-secondary:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* --- Secciones de Propuesta de Valor (Modalidades & Beneficios) --- */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.modality-icon-wrapper {
+  width: 65px;
+  height: 65px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.bg-purple-glow {
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.benefit-item-card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  height: 100%;
+  transition: background 0.3s ease;
+}
+
+.benefit-item-card:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.section-main-heading {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+/* --- Toolbar & Filtros --- */
+.toolbar-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.custom-input-group {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.custom-input-group:focus-within {
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.3);
+}
+
+.input-icon-bg {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding-left: 15px;
+}
+
+.custom-form-input {
+  background: transparent !important;
+  border: none !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.custom-form-input::placeholder {
+  color: #6b7280;
+}
+
+.custom-dropdown-toggle {
+  background: rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: var(--text-main) !important;
+  border-radius: 12px !important;
+  padding: 0.55rem 1rem !important;
+  box-shadow: none !important;
+}
+
+.custom-dropdown-toggle:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.custom-dropdown-menu {
+  background: var(--bg-dark-secondary) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+  overflow: hidden;
+}
+
+.custom-dropdown-menu .dropdown-item {
+  color: var(--text-main) !important;
+  padding: 8px 16px;
+}
+
+.custom-dropdown-menu .dropdown-item:hover {
+  background: var(--accent-purple) !important;
+  color: #ffffff !important;
+}
+
+.btn-test-backend {
+  border-radius: 10px;
+  border-color: var(--glass-border);
+  font-size: 0.9rem;
+  padding: 0.55rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-test-backend:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.pill-success {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.pill-error {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* --- Alertas --- */
+.custom-alert-glass {
+  background: rgba(245, 158, 11, 0.1) !important;
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+}
+
+.btn-retry {
+  color: #fcd34d !important;
+  font-weight: 600;
+}
+
+.btn-retry:hover {
+  color: #ffffff !important;
+}
+
+/* --- Título de Sección --- */
+.section-header {
+  position: relative;
+  display: inline-block;
+}
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.section-title-line {
+  height: 3px;
+  width: 60px;
+  background: linear-gradient(90deg, var(--accent-purple), transparent);
+  border-radius: 2px;
+}
+
+/* --- Tarjetas de Entradas (Estilo Billboard) --- */
+.entrada-card-v2 {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 18px !important;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.entrada-card-v2:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 92, 246, 0.15);
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.card-top-accent {
+  height: 4px;
+  width: 100%;
+}
+
+.entrada-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.badge-modalidad {
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.badge-fisica {
+  background: rgba(139, 92, 246, 0.15);
+  color: #c4b5fd;
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.badge-virtual {
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.entrada-description {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+/* Badges de Estado */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-badge-success {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-badge-warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.status-badge-out {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Precio y Botón */
+.price-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.price-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.btn-buy-glass {
+  background: var(--btn-accent, var(--accent-purple)) !important;
+  border: none !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
+  padding: 0.6rem 1.2rem !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.25s ease !important;
+}
+
+.btn-buy-glass:hover:not(:disabled) {
+  filter: brightness(1.15);
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.btn-buy-glass:disabled {
+  background: #374151 !important;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Empty state */
+.empty-state-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px dashed var(--glass-border);
+  border-radius: 18px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .welcome-title {
+    font-size: 2.1rem;
+  }
+  .dashboard-hero-container {
+    height: 320px;
+  }
+  .section-main-heading {
+    font-size: 1.8rem;
+  }
+}

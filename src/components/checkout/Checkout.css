@@ -1,0 +1,368 @@
+/* ==========================================================================
+   CONTENEDOR PRINCIPAL
+   ========================================================================== */
+.checkout-container {
+  min-height: calc(100vh - 70px);
+  background-color: #0d0f12;
+  color: #f1f3f5;
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.checkout-wrapper {
+  max-width: 1050px;
+  width: 100%;
+}
+
+.back-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #a0aab8;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.checkout-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #ffffff;
+}
+
+.checkout-error-banner {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+  padding: 0.85rem 1.25rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   GRID PRINCIPAL DE DOS COLUMNAS
+   ========================================================================== */
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 900px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   TARJETA Y ELEMENTOS DE SELECCIÓN DE ENTRADA
+   ========================================================================== */
+.checkout-card {
+  background: #16191e;
+  border: 1px solid #282c34;
+  border-radius: 12px;
+  padding: 1.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.checkout-card h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.tickets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ticket-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1f232b;
+  border: 1px solid #2a2f3a;
+  padding: 1.25rem;
+  border-radius: 10px;
+  transition: border-color 0.2s ease;
+}
+
+.ticket-item:hover {
+  border-color: #f59e0b;
+}
+
+.ticket-info h3 {
+  font-size: 1.1rem;
+  margin: 0 0 0.25rem 0;
+  color: #ffffff;
+}
+
+.ticket-info p {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.ticket-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f59e0b;
+  margin-top: 0.35rem;
+}
+
+/* Selector incremental (+ / -) */
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #16191e;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #2d333f;
+}
+
+.quantity-btn {
+  background: #2a2f3a;
+  border: none;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background: #f59e0b;
+  color: #000;
+}
+
+.quantity-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.quantity-display {
+  font-weight: 600;
+  font-size: 1rem;
+  min-width: 24px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   RESUMEN DE COMPRA Y EVENTO
+   ========================================================================== */
+.summary-card {
+  background: #16191e;
+  border: 1px solid #282c34;
+  border-radius: 12px;
+  padding: 1.75rem;
+  position: sticky;
+  top: 90px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.event-preview {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #282c34;
+}
+
+.event-image {
+  width: 80px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #2a2f3a;
+}
+
+.event-details h3 {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem 0;
+  color: #fff;
+}
+
+.event-meta {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.event-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.summary-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: #cbd5e1;
+}
+
+.summary-row.total {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  padding-top: 1rem;
+  border-top: 1px solid #282c34;
+  margin-top: 0.5rem;
+}
+
+.total-amount {
+  color: #f59e0b;
+}
+
+.pay-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #000;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.85rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.pay-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+}
+
+.pay-btn:disabled {
+  background: #2a2f3a;
+  color: #64748b;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   CARGA
+   ========================================================================== */
+.checkout-loading {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #a0aab8;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border-left-color: #f59e0b;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Temporizador Glassmorphism */
+.checkout-timer-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  backdrop-filter: blur(12px);
+  padding: 0.85rem 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  color: #f3f4f6;
+  transition: all 0.3s ease;
+}
+
+.timer-info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.timer-icon {
+  color: #a78bfa;
+  font-size: 1.1rem;
+}
+
+.timer-clock {
+  font-family: monospace;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #a78bfa;
+  letter-spacing: 1px;
+}
+
+/* Alerta cuando faltan menos de 2 minutos */
+.checkout-timer-banner.timer-warning {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+.checkout-timer-banner.timer-warning .timer-clock,
+.checkout-timer-banner.timer-warning .timer-icon {
+  color: #fbbf24;
+}
+
+/* Estado de Expirado */
+.checkout-timer-banner.timer-expired {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+.checkout-timer-banner.timer-expired .timer-clock,
+.checkout-timer-banner.timer-expired .timer-icon {
+  color: #f87171;
+}
+
+.pay-btn.expired-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  cursor: pointer;
+}

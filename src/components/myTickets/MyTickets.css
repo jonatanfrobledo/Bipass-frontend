@@ -1,0 +1,341 @@
+/* ==========================================================================
+   MyTickets Billboard Style - Dark Glassmorphism Theme
+   ========================================================================== */
+
+:root {
+  --bg-dark-main: #0b0f19;
+  --bg-dark-secondary: #111827;
+  --glass-bg: rgba(17, 24, 39, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --accent-purple: #8b5cf6;
+  --accent-purple-hover: #7c3aed;
+  --accent-cyan: #38bdf8;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+}
+
+.mytickets-wrapper {
+  background-color: var(--bg-dark-main);
+  background-image: 
+    radial-gradient(circle at 80% 10%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 10% 80%, rgba(56, 189, 248, 0.12) 0%, transparent 40%);
+  min-height: 100vh;
+  color: var(--text-main);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* --- Loading Screen --- */
+.mytickets-loading-screen {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-dark-main);
+}
+
+.loading-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.text-purple {
+  color: var(--accent-purple) !important;
+}
+
+/* --- Header --- */
+.tickets-badge {
+  background: rgba(139, 92, 246, 0.2);
+  color: #c4b5fd;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  padding: 4px 14px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.mytickets-title {
+  color: #ffffff;
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.highlight-text {
+  background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mytickets-subtitle {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+/* --- Search Input --- */
+.custom-input-group {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.custom-input-group:focus-within {
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+}
+
+.input-icon-bg {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding-left: 18px;
+}
+
+.custom-form-input {
+  background: transparent !important;
+  border: none !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+  padding: 0.75rem 1rem !important;
+}
+
+.custom-form-input::placeholder {
+  color: #6b7280;
+}
+
+/* --- Ticket Cards --- */
+.ticket-card-v2 {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 20px !important;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.ticket-card-v2:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 92, 246, 0.15);
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.ticket-stub-header {
+  background: rgba(139, 92, 246, 0.12);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticket-stub-icon {
+  color: var(--accent-purple);
+  font-size: 1rem;
+}
+
+.ticket-stub-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #c4b5fd;
+}
+
+.ticket-type-tag {
+  background: rgba(255, 255, 255, 0.08);
+  color: #d1d5db;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.ticket-event-title {
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.ticket-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.detail-icon {
+  color: var(--accent-purple);
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.price-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.price-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.btn-ticket-action {
+  background: var(--accent-purple) !important;
+  border: none !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
+  padding: 0.55rem 1.1rem !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+  transition: all 0.25s ease !important;
+}
+
+.btn-ticket-action:hover {
+  background: var(--accent-purple-hover) !important;
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+}
+
+/* --- Empty state --- */
+.empty-tickets-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px dashed var(--glass-border);
+  border-radius: 20px;
+}
+
+/* --- Dark Glass Modal --- */
+.dark-glass-modal {
+  background: rgba(17, 24, 39, 0.92) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Custom Modal Close Button (X) */
+.dark-glass-modal .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.dark-glass-modal .btn-close:hover {
+  opacity: 1;
+}
+
+/* QR Code Box */
+.qr-box-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qr-wrapper {
+  background: #ffffff;
+  padding: 14px;
+  border-radius: 18px;
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.25);
+  display: inline-block;
+}
+
+.qr-image {
+  width: 170px;
+  height: 170px;
+  object-fit: contain;
+  display: block;
+}
+
+.qr-instruction {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Modal Details List */
+.modal-ticket-details {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+.modal-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.row-icon {
+  color: var(--accent-purple);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* Modal Action Buttons */
+.btn-modal-action {
+  border-radius: 12px !important;
+  padding: 0.6rem 1.2rem !important;
+  font-weight: 600 !important;
+  transition: all 0.25s ease !important;
+}
+
+.btn-download-pdf {
+  background: #10b981 !important;
+  border: none !important;
+}
+
+.btn-download-pdf:hover {
+  background: #059669 !important;
+  transform: translateY(-2px);
+}
+
+.btn-resend-email {
+  border-color: var(--glass-border) !important;
+}
+
+.btn-resend-email:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  transform: translateY(-2px);
+}
+
+.btn-modal-close {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: var(--text-muted) !important;
+  border-radius: 12px !important;
+  padding: 0.5rem 1.5rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-modal-close:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .mytickets-title {
+    font-size: 2.2rem;
+  }
+}

@@ -1,0 +1,175 @@
+/* Container Principal */
+.mp-step-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Card de Cristal (Glassmorphism) */
+.mp-card-glass {
+  background: rgba(22, 27, 34, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Título e Iconos */
+.mp-title {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  letter-spacing: -0.3px;
+}
+
+.mp-icon-shield {
+  color: #00e676;
+  font-size: 1.4rem;
+  filter: drop-shadow(0 0 8px rgba(0, 230, 118, 0.4));
+}
+
+.mp-subtitle {
+  color: #a0aec0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1.8rem;
+  max-width: 480px;
+}
+
+/* Box de Resumen del Monto */
+.mp-summary-box {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.mp-summary-box span {
+  color: #cbd5e0;
+  font-size: 0.95rem;
+}
+
+.mp-summary-box strong {
+  color: #00e676;
+  font-size: 1.4rem;
+  font-weight: 800;
+  text-shadow: 0 0 10px rgba(0, 230, 118, 0.25);
+}
+
+/* Wrapper para el SDK Wallet de Mercado Pago */
+.mp-wallet-wrapper {
+  width: 100%;
+  min-height: 52px;
+  margin-bottom: 1.5rem;
+}
+
+/* Botón de carga previo al render de MP */
+.mp-loading-btn {
+  width: 100%;
+  padding: 0.9rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: #a0aec0;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: pulse 1.5s infinite;
+}
+
+/* Footer de Seguridad */
+.mp-security-footer {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.8rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+}
+
+.mp-security-footer span {
+  color: #718096;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Link de retroceso */
+.mp-back-link {
+  background: transparent;
+  border: none;
+  color: #a0aec0;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.mp-back-link:hover {
+  color: #ffffff;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .mp-card-glass {
+    padding: 1.8rem 1.2rem;
+  }
+
+  .mp-summary-box {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .mp-security-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+}

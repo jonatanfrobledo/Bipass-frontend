@@ -1,0 +1,214 @@
+/* ==========================================================================
+   Hero Carousels - Passline Style (Dark Glassmorphism)
+   ========================================================================== */
+
+:root {
+  --bg-dark: #0b0f19;
+  --glass-bg: rgba(17, 24, 39, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --accent-purple: #8b5cf6;
+  --accent-purple-hover: #7c3aed;
+  --accent-cyan: #38bdf8;
+}
+
+.hero-section {
+  background-color: var(--bg-dark);
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   1. Carrusel Grande Principal
+   -------------------------------------------------------------------------- */
+.main-carousel-container {
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.hero-banner-card {
+  height: 420px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  padding: 2.5rem;
+  position: relative;
+}
+
+.hero-banner-content {
+  max-width: 700px;
+  z-index: 2;
+}
+
+.category-pill {
+  background: rgba(139, 92, 246, 0.3) !important;
+  color: #c4b5fd !important;
+  border: 1px solid rgba(139, 92, 246, 0.5);
+  padding: 6px 14px;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+}
+
+.hero-event-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+  margin-bottom: 0.5rem;
+}
+
+.hero-event-meta {
+  font-size: 1.05rem;
+  color: #e5e7eb;
+  font-weight: 600;
+}
+
+.text-purple { color: var(--accent-purple); }
+.text-cyan { color: var(--accent-cyan); }
+
+.btn-buy-hero {
+  background: linear-gradient(135deg, var(--accent-purple) 0%, #6366f1 100%) !important;
+  border: none !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+  transition: all 0.3s ease !important;
+}
+
+.btn-buy-hero:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.6);
+}
+
+/* Indicadores del carrusel */
+.main-hero-carousel .carousel-indicators [data-bs-target] {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin: 0 5px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border: none;
+}
+
+.main-hero-carousel .carousel-indicators .active {
+  background-color: var(--accent-purple);
+  width: 28px;
+  border-radius: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Carrusel Chico / Tira Horizontal (Sub-Carousel)
+   -------------------------------------------------------------------------- */
+.sub-carousel-title {
+  color: #f3f4f6;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #10b981;
+  display: inline-block;
+}
+
+/* Track horizontal deslizante estilo Netflix / Passline */
+.sub-carousel-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 15px;
+  scroll-behavior: smooth;
+}
+
+/* Personalizar barra de desplazamiento horizontal */
+.sub-carousel-track::-webkit-scrollbar {
+  height: 6px;
+}
+.sub-carousel-track::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+.sub-carousel-track::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.4);
+  border-radius: 10px;
+}
+
+/* Tarjetas pequeñas del carrusel inferior */
+.sub-event-card {
+  min-width: 160px;
+  max-width: 160px;
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.sub-event-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  border-color: rgba(139, 92, 246, 0.5) !important;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(139, 92, 246, 0.2);
+}
+
+.sub-card-img-wrapper {
+  position: relative;
+  height: 120px;
+  overflow: hidden;
+}
+
+.sub-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.sub-event-card:hover .sub-card-img {
+  transform: scale(1.08);
+}
+
+.sub-card-date {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(11, 15, 25, 0.85);
+  color: var(--accent-cyan);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.sub-card-title {
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-banner-card {
+    height: 320px;
+    padding: 1.5rem;
+  }
+  
+  .hero-event-title {
+    font-size: 2rem;
+  }
+
+  .sub-event-card {
+    min-width: 130px;
+    max-width: 130px;
+  }
+}

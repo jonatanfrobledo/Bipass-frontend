@@ -1,0 +1,175 @@
+/* ============================================================
+   BIPASS - ESTILOS NAVBAR CON FUENTE TECH Y LOGO SVG
+   ============================================================ */
+
+/* Importación de la fuente tipográfica futurista Orbitron */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@600;700&display=swap');
+
+/* Navbar Principal */
+.main-navbar {
+  background: rgba(13, 10, 26, 0.88) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.25) !important;
+  padding: 0.65rem 1rem !important;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.8),
+              0 1px 15px rgba(0, 229, 255, 0.15) !important;
+  z-index: 1030;
+  transition: all 0.3s ease;
+}
+
+/* Estilos del Logo SVG */
+.navbar-brand-logo {
+  height: 38px;
+  width: auto;
+  filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.7));
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.navbar-brand:hover .navbar-brand-logo {
+  transform: scale(1.08) rotate(-3deg);
+  filter: drop-shadow(0 0 14px rgba(0, 229, 255, 1));
+}
+
+/* Título de la Marca */
+.main-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  background: linear-gradient(90deg, #00e5ff 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 12px rgba(0, 229, 255, 0.35);
+}
+
+/* Contenedor e Ítems de Navegación */
+.nav-links .nav-item-link {
+  color: #a0a5c0 !important;
+  margin: 0 0.4rem;
+  padding: 0.55rem 0.9rem !important;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Tipografía de los textos del menú */
+.nav-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.nav-links .nav-item-link .nav-icon {
+  font-size: 0.95rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Hover de los links */
+.nav-links .nav-item-link:hover {
+  color: #ffffff !important;
+  background: rgba(0, 229, 255, 0.08);
+  border-radius: 8px;
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.15);
+}
+
+.nav-links .nav-item-link:hover .nav-icon {
+  color: #00e5ff;
+  transform: scale(1.15);
+}
+
+.nav-links .nav-item-link:hover .nav-text {
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.8);
+}
+
+/* Estado Activo */
+.nav-links .nav-item-link.active {
+  color: #00e5ff !important;
+  background: rgba(0, 229, 255, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.25);
+}
+
+.nav-links .nav-item-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+  width: 70%;
+  height: 2px;
+  background: #00e5ff;
+  box-shadow: 0 0 8px #00e5ff;
+  border-radius: 2px;
+}
+
+.nav-links .nav-item-link.active .nav-icon {
+  color: #00e5ff;
+}
+
+.nav-links .nav-item-link.active .nav-text {
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.9);
+}
+
+/* Botón Hamburguesa Responsive */
+.custom-toggler {
+  border: 1px solid rgba(0, 229, 255, 0.4) !important;
+  padding: 0.25rem 0.6rem !important;
+}
+
+.custom-toggler:focus {
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5) !important;
+}
+
+.custom-toggler .navbar-toggler-icon {
+  filter: invert(1) drop-shadow(0 0 4px #00e5ff);
+}
+
+/* Botón Cerrar Sesión */
+.btn-logout {
+  background-color: rgba(255, 0, 85, 0.1) !important;
+  border: 1px solid rgba(255, 0, 85, 0.5) !important;
+  color: #ff4d79 !important;
+  border-radius: 10px !important;
+  padding: 0.5rem 1.1rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.logout-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.btn-logout:hover {
+  background-color: rgba(255, 0, 85, 0.85) !important;
+  color: #ffffff !important;
+  border-color: #ff0055 !important;
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.7) !important;
+  transform: translateY(-2px);
+}
+
+/* Adaptación Mobile */
+@media (max-width: 991px) {
+  .main-navbar {
+    background: rgba(13, 10, 26, 0.97) !important;
+  }
+
+  .nav-links .nav-item-link {
+    display: flex;
+    justify-content: flex-start;
+    margin: 0.25rem 0;
+    padding: 0.75rem 1rem !important;
+    width: 100%;
+  }
+
+  .btn-logout {
+    width: 100%;
+    padding: 0.75rem 1rem !important;
+  }
+}
