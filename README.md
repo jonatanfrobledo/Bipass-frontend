@@ -1,47 +1,51 @@
-# BIPASS - Backend API
+# BIPASS - Frontend Application
 
-Servicio Backend en .NET para la plataforma BIPASS. Este componente gestiona el catálogo de entradas, precios, disponibilidades y la conectividad requerida por la aplicación web.
+Interfaz web desarrollada en React y Bootstrap para la plataforma BIPASS. Permite la visualización de la propuesta de valor, filtrado de entradas presenciales y virtuales por modalidad, y la prueba de conectividad en tiempo real con la API Backend.
 
 ---
 
 ## Requisitos Previos
 
-Antes de ejecutar el proyecto, asegúrate de contar con las siguientes herramientas instaladas:
+Asegúrate de tener instalado en tu sistema:
 
-- .NET SDK (Versión 8.0 o superior)
+- Node.js (Versión 18.0.0 o superior)
+- npm (Incluido con Node.js)
 - Git
-- Un entorno de desarrollo como Visual Studio 2022 o Visual Studio Code
+- Visual Studio Code (o tu editor de código preferido)
 
 ---
 
 ## Configuración e Instalación
 
 1. Clonar el repositorio:
-   git clone https://github.com/tu-usuario/tu-repo-backend.git
 
 2. Navegar a la carpeta raíz del proyecto:
-   cd tu-repo-backend
 
-3. Restaurar los paquetes NuGet y dependencias:
-   dotnet restore
-
-4. Compilar la solución para verificar que no existan errores:
-   dotnet build
+3. Instalar las dependencias de Node:
+   npm install
 
 ---
 
-## Ejecución del Servidor
+## Variables de Entorno (Opcional)
 
-Para iniciar la API en entorno de desarrollo local, ejecuta:
+Si el frontend requiere conectar con un puerto específico del backend, verifica o crea un archivo .env en la raíz del proyecto con la URL correspondiente:
 
-dotnet run
-
-Una vez iniciada, la consola mostrará la URL local en la que está escuchando la API (por ejemplo: https://localhost:7000 o http://localhost:5000).
+VITE_API_URL=https://localhost:7000
 
 ---
 
-## Verificación de Puntos de Enlace (Endpoints)
+## Ejecución en Entorno de Desarrollo
 
-- Si el proyecto incluye Swagger/OpenAPI, puedes acceder a la documentación interactiva en el navegador navegando a:
-  https://localhost:7000/swagger
-- El endpoint de prueba de conexión utilizado por el frontend responde en la ruta base o en el controlador configurado para validación de estado (health check).
+Para iniciar el servidor local de desarrollo:
+
+npm run dev
+
+Abre tu navegador e ingresa a la dirección informada en la terminal (por defecto: http://localhost:5173).
+
+---
+
+## Pruebas e Interacción con el Backend
+
+1. Asegúrate de haber iniciado primero la API del Backend.
+2. Abre la aplicación Frontend en el navegador.
+3. Ve a la sección del catálogo en el Dashboard y presiona el botón "Probar backend" para validar la comunicación HTTP activa entre ambas capas.
