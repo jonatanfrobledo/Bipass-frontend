@@ -1,12 +1,47 @@
-# React + Vite
+# BIPASS - Backend API
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Servicio Backend en .NET para la plataforma BIPASS. Este componente gestiona el catálogo de entradas, precios, disponibilidades y la conectividad requerida por la aplicación web.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Requisitos Previos
 
-## Expanding the ESLint configuration
+Antes de ejecutar el proyecto, asegúrate de contar con las siguientes herramientas instaladas:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- .NET SDK (Versión 8.0 o superior)
+- Git
+- Un entorno de desarrollo como Visual Studio 2022 o Visual Studio Code
+
+---
+
+## Configuración e Instalación
+
+1. Clonar el repositorio:
+   git clone https://github.com/tu-usuario/tu-repo-backend.git
+
+2. Navegar a la carpeta raíz del proyecto:
+   cd tu-repo-backend
+
+3. Restaurar los paquetes NuGet y dependencias:
+   dotnet restore
+
+4. Compilar la solución para verificar que no existan errores:
+   dotnet build
+
+---
+
+## Ejecución del Servidor
+
+Para iniciar la API en entorno de desarrollo local, ejecuta:
+
+dotnet run
+
+Una vez iniciada, la consola mostrará la URL local en la que está escuchando la API (por ejemplo: https://localhost:7000 o http://localhost:5000).
+
+---
+
+## Verificación de Puntos de Enlace (Endpoints)
+
+- Si el proyecto incluye Swagger/OpenAPI, puedes acceder a la documentación interactiva en el navegador navegando a:
+  https://localhost:7000/swagger
+- El endpoint de prueba de conexión utilizado por el frontend responde en la ruta base o en el controlador configurado para validación de estado (health check).
