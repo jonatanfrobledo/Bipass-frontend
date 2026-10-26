@@ -1,6 +1,4 @@
-/* ==========================================================================
-   CONTENEDOR PRINCIPAL
-   ========================================================================== */
+
 .checkout-container {
   min-height: calc(100vh - 70px);
   background-color: #0d0f12;
@@ -54,9 +52,6 @@
   font-size: 0.95rem;
 }
 
-/* ==========================================================================
-   GRID PRINCIPAL DE DOS COLUMNAS
-   ========================================================================== */
 .checkout-grid {
   display: grid;
   grid-template-columns: 1.35fr 1fr;
@@ -69,9 +64,6 @@
   }
 }
 
-/* ==========================================================================
-   TARJETA Y ELEMENTOS DE SELECCIÓN DE ENTRADA
-   ========================================================================== */
 .checkout-card {
   background: #16191e;
   border: 1px solid #282c34;
@@ -173,9 +165,6 @@
   text-align: center;
 }
 
-/* ==========================================================================
-   RESUMEN DE COMPRA Y EVENTO
-   ========================================================================== */
 .summary-card {
   background: #16191e;
   border: 1px solid #282c34;
@@ -279,9 +268,6 @@
   box-shadow: none;
 }
 
-/* ==========================================================================
-   CARGA
-   ========================================================================== */
 .checkout-loading {
   min-height: 60vh;
   display: flex;
@@ -306,7 +292,6 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Temporizador Glassmorphism */
 .checkout-timer-banner {
   display: flex;
   justify-content: space-between;
@@ -342,7 +327,6 @@
   letter-spacing: 1px;
 }
 
-/* Alerta cuando faltan menos de 2 minutos */
 .checkout-timer-banner.timer-warning {
   background: rgba(245, 158, 11, 0.15);
   border-color: rgba(245, 158, 11, 0.4);

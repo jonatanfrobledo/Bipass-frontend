@@ -1,10 +1,8 @@
-// src/components/hero/HeroCarousels.jsx
 import { useState } from 'react';
 import { Carousel, Container, Row, Col, Card, Button, Badge } from 'react-bootstrap';
 import { FaCalendarAlt, FaMapMarkerAlt, FaTicketAlt, FaFire } from 'react-icons/fa';
 import './HeroCarousels.css';
 
-// Eventos destacados para el carrusel grande (principal)
 const MAIN_EVENTS = [
   {
     id: 101,
@@ -32,7 +30,6 @@ const MAIN_EVENTS = [
   }
 ];
 
-// Eventos secundarios para la tira / carrusel pequeño
 const SUB_EVENTS = [
   { id: 1, title: 'Social Distortion', date: '08 OCT', img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&q=80' },
   { id: 2, title: 'Pastillas del Abuelo', date: '12 OCT', img: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&q=80' },
@@ -52,16 +49,12 @@ const HeroCarousels = () => {
   return (
     <div className="hero-section">
       <Container fluid className="px-md-5 py-4">
-        
-        {/* ==========================================
-            1. CARRUSEL GRANDE (PRINCIPAL - LENTO)
-           ========================================== */}
         <div className="main-carousel-container mb-4">
           <Carousel 
             activeIndex={indexMain} 
             onSelect={handleSelectMain}
-            interval={7000} // Cambia cada 7 segundos (LENTO)
-            fade // Efecto de transición suave estilo fundido
+            interval={7000}
+            fade
             indicators={true}
             className="main-hero-carousel"
           >
@@ -92,15 +85,11 @@ const HeroCarousels = () => {
           </Carousel>
         </div>
 
-        {/* ==========================================
-            2. CARRUSEL CHICO / TIRA DE CARDS (RÁPIDO)
-           ========================================== */}
         <div className="sub-carousel-section">
           <h5 className="sub-carousel-title mb-3">
             <span className="live-dot"></span> Próximos Destacados
           </h5>
 
-          {/* Usamos scroll horizontal infinito/suave o carrusel de tarjetas */}
           <div className="sub-carousel-track">
             {SUB_EVENTS.map((item) => (
               <Card key={item.id} className="sub-event-card border-0">

@@ -1,4 +1,4 @@
-// src/components/contact/Contact.jsx
+
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { FaLinkedin, FaGithub, FaEnvelope, FaRocket, FaHeadset, FaPaperPlane } from "react-icons/fa";
 import "./Contact.css";
@@ -7,7 +7,7 @@ const developers = [
   {
     name: "Jonatan Robledo",
     role: "Software Developer",
-    image: "/images/Jonatan.jpg", // Rutas públicas en React/Vite inician desde la raíz '/'
+    image: "/images/Jonatan.jpg",
     linkedin: "https://www.linkedin.com/in/jonatan-francisco-robledo-/",
     github: "https://github.com/jonatanfrobledo",
     email: "mailto:jrobledo@mail.austral.edu.com",
@@ -19,7 +19,7 @@ const Contact = () => {
     <div className="contact-wrapper">
       <Container className="py-5">
         
-        {/* Encabezado Principal */}
+       
         <div className="text-center mb-5">
           <span className="contact-badge">
             <FaHeadset className="me-2" /> SOPORTE & DESARROLLO
@@ -35,21 +35,21 @@ const Contact = () => {
           </p>
         </div>
 
-        {/* Tarjeta del Desarrollador / Equipo */}
+        
         <Row className="mb-5 justify-content-center">
           {developers.map((dev, idx) => (
             <Col key={idx} md={8} lg={6} xl={5} className="text-center">
               <Card className="dev-glass-card border-0 h-100">
                 <Card.Body className="p-4 d-flex flex-column align-items-center">
                   
-                  {/* Foto de Perfil con Anillo Glowing */}
+                 
                   <div className="dev-avatar-container mb-3">
                     <img
                       src={dev.image}
                       alt={dev.name}
                       className="dev-avatar-img"
                       onError={(e) => {
-                        // Fallback si la imagen no carga
+                      
                         e.target.src = "https://ui-avatars.com/api/?name=Jonatan+Robledo&background=8b5cf6&color=fff&size=200";
                       }}
                     />
@@ -58,7 +58,7 @@ const Contact = () => {
                   <Card.Title className="dev-name mb-1">{dev.name}</Card.Title>
                   <span className="dev-role mb-3">{dev.role}</span>
 
-                  {/* Redes Sociales */}
+
                   <div className="d-flex justify-content-center gap-3 mt-2">
                     <a
                       href={dev.linkedin}
@@ -93,7 +93,7 @@ const Contact = () => {
           ))}
         </Row>
 
-        {/* Sección Publicación de Eventos */}
+      
         <Row className="justify-content-center">
           <Col md={10} lg={8} xl={7}>
             <Card className="event-publisher-card border-0 p-4 p-md-5">

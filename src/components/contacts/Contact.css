@@ -20,7 +20,6 @@
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
-/* --- Header --- */
 .contact-badge {
   background: rgba(139, 92, 246, 0.18);
   color: #c4b5fd;
@@ -54,7 +53,6 @@
   line-height: 1.6;
 }
 
-/* --- Developer Card --- */
 .dev-glass-card {
   background: var(--glass-bg) !important;
   backdrop-filter: blur(16px);
@@ -106,7 +104,6 @@
   letter-spacing: 0.5px;
 }
 
-/* --- Social Buttons --- */
 .social-btn {
   width: 44px;
   height: 44px;
@@ -144,7 +141,6 @@
   box-shadow: 0 6px 15px rgba(234, 67, 53, 0.4);
 }
 
-/* --- Event Publisher Banner --- */
 .event-publisher-card {
   background: linear-gradient(135deg, rgba(17, 24, 39, 0.8) 0%, rgba(30, 27, 75, 0.6) 100%) !important;
   backdrop-filter: blur(16px);
@@ -199,7 +195,6 @@
   background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%) !important;
 }
 
-/* Responsive */
 @media (max-width: 576px) {
   .contact-title {
     font-size: 2.1rem;

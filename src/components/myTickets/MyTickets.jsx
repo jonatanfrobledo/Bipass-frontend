@@ -1,4 +1,3 @@
-// src/components/mytickets/MyTickets.jsx
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, InputGroup, Form, Modal } from 'react-bootstrap';
 import { 
@@ -15,7 +14,6 @@ import {
 import { BsQrCodeScan } from 'react-icons/bs';
 import './MyTickets.css';
 
-// Mock de tickets para demostrar la funcionalidad
 const MOCK_TICKETS = [
   {
     id: 1,
@@ -57,7 +55,6 @@ const MyTickets = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    // Simula llamado a API
     const timer = setTimeout(() => {
       setTickets(MOCK_TICKETS);
       setLoading(false);
@@ -98,8 +95,6 @@ const MyTickets = () => {
   return (
     <div className="mytickets-wrapper">
       <Container className="py-5">
-        
-        {/* Header de la sección */}
         <div className="text-center mb-5">
           <span className="tickets-badge">ACCESO DIGITAL</span>
           <h1 className="mytickets-title mt-2">
@@ -107,8 +102,6 @@ const MyTickets = () => {
           </h1>
           <p className="mytickets-subtitle">Aquí puedes consultar, descargar y gestionar tus entradas adquiridas</p>
         </div>
-
-        {/* Barra de búsqueda */}
         <div className="mytickets-search-container mb-5">
           <InputGroup className="custom-input-group mx-auto" style={{ maxWidth: '580px' }}>
             <InputGroup.Text className="input-icon-bg">
@@ -124,14 +117,12 @@ const MyTickets = () => {
           </InputGroup>
         </div>
 
-        {/* Grid de tickets */}
         {filteredTickets.length > 0 ? (
           <Row xs={1} md={2} lg={3} className="g-4">
             {filteredTickets.map(ticket => (
               <Col key={ticket.id}>
                 <Card className="ticket-card-v2 h-100 border-0">
                   
-                  {/* Encabezado del ticket / Stub */}
                   <div className="ticket-stub-header">
                     <div className="d-flex align-items-center gap-2">
                       <FaTicketAlt className="ticket-stub-icon" />
@@ -158,7 +149,6 @@ const MyTickets = () => {
                       </div>
                     </div>
 
-                    {/* Footer de la tarjeta */}
                     <div className="pt-3 border-top border-secondary-subtle d-flex justify-content-between align-items-center mt-auto">
                       <div>
                         <span className="price-label d-block text-muted">Precio</span>
@@ -182,7 +172,6 @@ const MyTickets = () => {
           </div>
         )}
 
-        {/* Modal de Ticket estilo Glassmorphism */}
         <Modal 
           show={showModal} 
           onHide={handleCloseModal} 
@@ -198,8 +187,7 @@ const MyTickets = () => {
               </Modal.Header>
 
               <Modal.Body className="p-4 text-center">
-                
-                {/* QR Code Container */}
+
                 <div className="qr-box-container mb-4">
                   <div className="qr-wrapper">
                     <img src={selectedTicket.qr_code_url} alt="Código QR" className="qr-image" />
@@ -207,7 +195,6 @@ const MyTickets = () => {
                   <span className="qr-instruction">Presenta este código QR en el ingreso</span>
                 </div>
 
-                {/* Detalles resumidos */}
                 <div className="modal-ticket-details mb-4">
                   <div className="modal-detail-row">
                     <FaCalendarAlt className="row-icon" />
@@ -234,7 +221,6 @@ const MyTickets = () => {
                   </div>
                 </div>
 
-                {/* Botones de Acción */}
                 <div className="d-flex flex-wrap justify-content-center gap-3">
                   <Button 
                     variant="success" 

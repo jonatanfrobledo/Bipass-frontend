@@ -15,9 +15,6 @@ const Login = ({ onLogin }) => {
     const passwordRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
-
-    // Capturamos la ruta previa enviada desde el ProtectedRoute o Billboard
-    // Si no existe, por defecto enviamos a '/billboard'
     const from = location.state?.from?.pathname || location.state?.from || "/billboard";
 
     const handleChangeEmail = (event) => {
@@ -52,7 +49,6 @@ const Login = ({ onLogin }) => {
             if (onLogin) {
                 await onLogin(email, password);
             }
-            // Redirige a la URL guardada dinámicamente en lugar de hardcodear '/billboard'
             navigate(from, { replace: true });
         } catch (err) {
             console.error("Error al autenticar:", err);
@@ -65,7 +61,6 @@ const Login = ({ onLogin }) => {
 
     return (
         <Row className="g-0 vh-100 login-wrapper">
-            {/* Columna de Video de Fondo (Izquierda) */}
             <Col md={7} lg={8} className="d-none d-md-flex align-items-center justify-content-center bg-dark overflow-hidden position-relative">
                 <video
                     src="/gifs/video.mp4"
@@ -79,7 +74,6 @@ const Login = ({ onLogin }) => {
                 <div className="video-overlay" />
             </Col>
 
-            {/* Columna de Formulario (Derecha) */}
             <Col md={5} lg={4} className="d-flex align-items-center justify-content-center login-bg p-3">
                 <Card className="login-card p-3 p-md-4 shadow-lg w-100">
                     <Card.Body>
@@ -95,7 +89,6 @@ const Login = ({ onLogin }) => {
                         )}
 
                         <Form onSubmit={handleSubmit}>
-                            {/* Campo Email */}
                             <FormGroup className="mb-3">
                                 <Form.Label className="input-label">Correo Electrónico</Form.Label>
                                 <Form.Control
@@ -112,7 +105,6 @@ const Login = ({ onLogin }) => {
                                 )}
                             </FormGroup>
 
-                            {/* Campo Contraseña */}
                             <FormGroup className="mb-4">
                                 <Form.Label className="input-label">Contraseña</Form.Label>
                                 <Form.Control
@@ -129,7 +121,6 @@ const Login = ({ onLogin }) => {
                                 )}
                             </FormGroup>
 
-                            {/* Botón Iniciar Sesión */}
                             <Button type="submit" disabled={loading} className="neon-btn w-100 mb-2">
                                 {loading ? (
                                     <>
@@ -144,7 +135,6 @@ const Login = ({ onLogin }) => {
 
                         <hr className="login-divider" />
 
-                        {/* Link a Registro */}
                         <div className="text-center mb-3">
                             <p className="mb-0 login-link-text">
                                 ¿No tienes una cuenta? <Link to="/register" className="neon-link">Regístrate</Link>
@@ -153,7 +143,6 @@ const Login = ({ onLogin }) => {
 
                         <hr className="login-divider" />
 
-                        {/* Tiendas de Aplicaciones */}
                         <div className="text-center mt-3">
                             <p className="login-subtitle mb-2">Descarga la aplicación</p>
                             <div className="d-flex justify-content-center gap-2">

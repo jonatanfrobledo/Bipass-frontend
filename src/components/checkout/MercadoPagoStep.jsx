@@ -3,7 +3,6 @@ import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 import { FaShieldAlt, FaCreditCard, FaLock } from 'react-icons/fa';
 import './MercadoPagoStep.css';
 
-// Reemplazar con tu PUBLIC KEY de Mercado Pago
 initMercadoPago('YOUR_MERCADO_PAGO_PUBLIC_KEY', { locale: 'es-AR' });
 
 const MercadoPagoStep = ({ preferenceId, totalAmount, onBack }) => {

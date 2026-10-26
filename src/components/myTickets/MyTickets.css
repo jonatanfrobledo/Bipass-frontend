@@ -1,7 +1,3 @@
-/* ==========================================================================
-   MyTickets Billboard Style - Dark Glassmorphism Theme
-   ========================================================================== */
-
 :root {
   --bg-dark-main: #0b0f19;
   --bg-dark-secondary: #111827;
@@ -24,7 +20,6 @@
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
-/* --- Loading Screen --- */
 .mytickets-loading-screen {
   min-height: 100vh;
   display: flex;
@@ -45,7 +40,6 @@
   color: var(--accent-purple) !important;
 }
 
-/* --- Header --- */
 .tickets-badge {
   background: rgba(139, 92, 246, 0.2);
   color: #c4b5fd;
@@ -76,7 +70,6 @@
   font-size: 1.05rem;
 }
 
-/* --- Search Input --- */
 .custom-input-group {
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--glass-border);
@@ -110,7 +103,6 @@
   color: #6b7280;
 }
 
-/* --- Ticket Cards --- */
 .ticket-card-v2 {
   background: var(--glass-bg) !important;
   backdrop-filter: blur(14px);
@@ -212,7 +204,6 @@
   box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
 }
 
-/* --- Empty state --- */
 .empty-tickets-glass {
   background: var(--glass-bg);
   backdrop-filter: blur(12px);
@@ -220,7 +211,6 @@
   border-radius: 20px;
 }
 
-/* --- Dark Glass Modal --- */
 .dark-glass-modal {
   background: rgba(17, 24, 39, 0.92) !important;
   backdrop-filter: blur(20px) !important;
@@ -229,7 +219,6 @@
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8) !important;
 }
 
-/* Custom Modal Close Button (X) */
 .dark-glass-modal .btn-close {
   filter: invert(1) grayscale(100%) brightness(200%);
   opacity: 0.7;
@@ -240,7 +229,6 @@
   opacity: 1;
 }
 
-/* QR Code Box */
 .qr-box-container {
   display: flex;
   flex-direction: column;
@@ -268,7 +256,6 @@
   color: var(--text-muted);
 }
 
-/* Modal Details List */
 .modal-ticket-details {
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--glass-border);
@@ -292,7 +279,6 @@
   flex-shrink: 0;
 }
 
-/* Modal Action Buttons */
 .btn-modal-action {
   border-radius: 12px !important;
   padding: 0.6rem 1.2rem !important;
@@ -333,7 +319,6 @@
   color: #ffffff !important;
 }
 
-/* Responsive */
 @media (max-width: 576px) {
   .mytickets-title {
     font-size: 2.2rem;

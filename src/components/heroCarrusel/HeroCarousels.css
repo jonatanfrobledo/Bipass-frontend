@@ -1,6 +1,3 @@
-/* ==========================================================================
-   Hero Carousels - Passline Style (Dark Glassmorphism)
-   ========================================================================== */
 
 :root {
   --bg-dark: #0b0f19;
@@ -16,9 +13,6 @@
   color: #ffffff;
 }
 
-/* --------------------------------------------------------------------------
-   1. Carrusel Grande Principal
-   -------------------------------------------------------------------------- */
 .main-carousel-container {
   border-radius: 24px;
   overflow: hidden;
@@ -82,7 +76,6 @@
   box-shadow: 0 10px 25px rgba(139, 92, 246, 0.6);
 }
 
-/* Indicadores del carrusel */
 .main-hero-carousel .carousel-indicators [data-bs-target] {
   width: 12px;
   height: 12px;
@@ -98,9 +91,6 @@
   border-radius: 10px;
 }
 
-/* --------------------------------------------------------------------------
-   2. Carrusel Chico / Tira Horizontal (Sub-Carousel)
-   -------------------------------------------------------------------------- */
 .sub-carousel-title {
   color: #f3f4f6;
   font-weight: 700;
@@ -118,7 +108,6 @@
   display: inline-block;
 }
 
-/* Track horizontal deslizante estilo Netflix / Passline */
 .sub-carousel-track {
   display: flex;
   gap: 16px;
@@ -127,7 +116,6 @@
   scroll-behavior: smooth;
 }
 
-/* Personalizar barra de desplazamiento horizontal */
 .sub-carousel-track::-webkit-scrollbar {
   height: 6px;
 }
@@ -140,7 +128,6 @@
   border-radius: 10px;
 }
 
-/* Tarjetas pequeñas del carrusel inferior */
 .sub-event-card {
   min-width: 160px;
   max-width: 160px;

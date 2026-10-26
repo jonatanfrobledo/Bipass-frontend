@@ -10,7 +10,6 @@
   animation: fadeIn 0.4s ease-in-out;
 }
 
-/* Card de Cristal (Glassmorphism) */
 .mp-card-glass {
   background: rgba(22, 27, 34, 0.75);
   backdrop-filter: blur(16px);
@@ -26,7 +25,6 @@
   text-align: center;
 }
 
-/* Título e Iconos */
 .mp-title {
   color: #ffffff;
   font-size: 1.5rem;
@@ -52,7 +50,6 @@
   max-width: 480px;
 }
 
-/* Box de Resumen del Monto */
 .mp-summary-box {
   width: 100%;
   background: rgba(255, 255, 255, 0.04);
@@ -77,14 +74,12 @@
   text-shadow: 0 0 10px rgba(0, 230, 118, 0.25);
 }
 
-/* Wrapper para el SDK Wallet de Mercado Pago */
 .mp-wallet-wrapper {
   width: 100%;
   min-height: 52px;
   margin-bottom: 1.5rem;
 }
 
-/* Botón de carga previo al render de MP */
 .mp-loading-btn {
   width: 100%;
   padding: 0.9rem;
@@ -99,7 +94,6 @@
   animation: pulse 1.5s infinite;
 }
 
-/* Footer de Seguridad */
 .mp-security-footer {
   display: flex;
   justify-content: center;

@@ -20,7 +20,6 @@ const customFetch = async (endpoint, options = {}) => {
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
 
-    // Captura clara de errores enviados por .NET
     const errorMessage =
       errorData.message ||
       errorData.title ||
@@ -30,7 +29,7 @@ const customFetch = async (endpoint, options = {}) => {
     throw new Error(errorMessage);
   }
 
-  // Respuesta HTTP 204 No Content
+  // RESPONSE 204
   if (response.status === 204) return null;
 
   // Manejo de respuesta seguro para JSON, texto o números sueltos
@@ -47,7 +46,7 @@ const customFetch = async (endpoint, options = {}) => {
   }
 };
 
-// --- AUTENTICACIÓN ---
+// --- AUTH ---
 export const login = async (credentials) => {
   const data = await customFetch('/Authentication/login', {
     method: 'POST',
@@ -61,7 +60,7 @@ export const login = async (credentials) => {
   return data;
 };
 
-// --- USUARIOS ---
+// --- USERS ---
 export const register = (userData) =>
   customFetch('/Users/register', {
     method: 'POST',
@@ -76,7 +75,7 @@ export const updateMyProfile = (userData) =>
     body: JSON.stringify(userData),
   });
 
-// --- EVENTOS / TICKETS ---
+// --- EVENTS / TICKETS ---
 export const getEvents = () => customFetch('/Events');
 export const getTickets = () => customFetch('/Events');
 
@@ -84,14 +83,14 @@ export const getTickets = () => customFetch('/Events');
 export const getEventById = (id) => customFetch(`/Events/${id}`);
 export const getTicketTypesByEvent = (eventId) => customFetch(`/Events/${eventId}/tickets`);
 
-// --- ÓRDENES ---
+// --- ORDERS ---
 export const createOrder = (orderData) =>
   customFetch('/Orders', {
     method: 'POST',
     body: JSON.stringify(orderData),
   });
 
-// Integración con Mercado Pago: crea la orden en estado 'Pending' y genera la preferencia de pago
+
 export const createPaymentPreference = (orderData) =>
   customFetch('/Orders/create-preference', {
     method: 'POST',
@@ -100,7 +99,7 @@ export const createPaymentPreference = (orderData) =>
 
 export const getMyOrders = () => customFetch('/Orders/my-orders');
 
-// --- TEST DE CONEXIÓN ---
+// --- TEST CONNECTION ---
 export const testConnection = () => customFetch('/Users/test');
 
 export default customFetch;

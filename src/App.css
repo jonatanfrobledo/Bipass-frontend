@@ -156,7 +156,6 @@ select:focus {
     background: var(--secondary-badge) !important;
 }
 
-/* El `body` ya tiene el fondo, esta clase es redundante. Se puede usar el `body` directamente. */
 .dashboard-bg {
     min-height: 100vh;
     background: linear-gradient(135deg, var(--background-start) 0%, #2d225a 40%, var(--background-end) 100%);

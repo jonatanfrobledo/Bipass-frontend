@@ -1,14 +1,8 @@
-/* ============================================================
-   BIPASS - ESTILOS DE AUTENTICACIÓN Y LOGIN (CYBERPUNK GLASS)
-   ============================================================ */
-
-/* Contenedor Principal */
 .login-wrapper {
   background-color: #0d0a1a;
   overflow-x: hidden;
 }
 
-/* Columna de Fondo */
 .login-bg {
   background: linear-gradient(150deg, #0f1d33 0%, #170635 100%);
 }
@@ -30,7 +24,6 @@
   pointer-events: none;
 }
 
-/* Tarjeta Glassmorphic */
 .login-card {
   max-width: 420px;
   background: rgba(20, 15, 38, 0.75) !important;
@@ -42,7 +35,6 @@
               0 0 20px rgba(0, 229, 255, 0.1) !important;
 }
 
-/* Títulos y Textos */
 .login-title {
   color: #ffffff;
   font-weight: 800;
@@ -57,8 +49,6 @@
   font-size: 0.85rem;
   margin-bottom: 0;
 }
-
-/* Etiqueta e Inputs */
 .input-label {
   color: #00e5ff;
   font-size: 0.8rem;
@@ -88,7 +78,6 @@
   outline: none !important;
 }
 
-/* Estado de Error */
 .input-error {
   border-color: #ff0055 !important;
   box-shadow: 0 0 8px rgba(255, 0, 85, 0.5) !important;
@@ -101,7 +90,6 @@
   margin-bottom: 0;
 }
 
-/* Botón Neón Principal */
 .neon-btn {
   background: linear-gradient(90deg, #00e5ff 0%, #7b2cbf 100%) !important;
   border: none !important;
@@ -123,7 +111,6 @@
   cursor: not-allowed;
 }
 
-/* Alerta de Error */
 .login-alert-danger {
   background-color: rgba(255, 0, 85, 0.15) !important;
   border: 1px solid rgba(255, 0, 85, 0.4) !important;
@@ -132,7 +119,6 @@
   backdrop-filter: blur(8px);
 }
 
-/* Enlaces y Divisores */
 .login-divider {
   border-color: rgba(255, 255, 255, 0.15) !important;
   margin: 1.2rem 0 !important;
@@ -154,7 +140,6 @@
   text-shadow: 0 0 8px rgba(0, 229, 255, 0.8);
 }
 
-/* Botones App Store / Play Store */
 .btn-app-download {
   border: 1px solid rgba(0, 229, 255, 0.3) !important;
   color: rgba(255, 255, 255, 0.85) !important;

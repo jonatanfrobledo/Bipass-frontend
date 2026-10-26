@@ -120,19 +120,18 @@ const Billboard = ({ isAuthenticated }) => {
     }
   };
 
-  // Manejador del botón Comprar
   const handleBuy = (e, eventId) => {
-  // 1. Evita que la página se recargue por comportamientos por defecto
+
   if (e && e.preventDefault) e.preventDefault();
   if (e && e.stopPropagation) e.stopPropagation();
 
   const targetPath = `/checkout/${eventId}`;
   
   if (!isAuthenticated) {
-    // Si no está autenticado, redirige al Login guardando la ruta destino
+  
     navigate('/login', { state: { from: targetPath } });
   } else {
-    // Si está autenticado, navega directamente al checkout
+  
     navigate(targetPath);
   }
   };
@@ -159,7 +158,7 @@ const Billboard = ({ isAuthenticated }) => {
   return (
     <div className="passline-billboard">
       
-      {/* Banner de aviso si la API no respondió */}
+      
       {error && (
         <Container className="pt-3">
           <Alert variant="dark" className="border-danger text-light bg-dark shadow-sm mb-0">
@@ -176,7 +175,6 @@ const Billboard = ({ isAuthenticated }) => {
         </Container>
       )}
 
-      {/* 1. CARRUSEL PRINCIPAL HERO */}
       {mainFeaturedEvents.length > 0 && (
         <section className="hero-carousel-section pt-3">
           <Carousel interval={4000} controls={true} indicators={true} className="passline-hero-carousel">
@@ -213,7 +211,7 @@ const Billboard = ({ isAuthenticated }) => {
         </section>
       )}
 
-      {/* 2. CARRUSEL RÁPIDO BANNER */}
+      
       {fastBannerEvents.length > 0 && (
         <section className="fast-banner-section py-4">
           <Container>
@@ -254,7 +252,6 @@ const Billboard = ({ isAuthenticated }) => {
         </section>
       )}
 
-      {/* 3. BARRA DE BÚSQUEDA */}
       <section className="search-section py-3">
         <Container>
           <Row className="justify-content-center">
@@ -275,7 +272,6 @@ const Billboard = ({ isAuthenticated }) => {
         </Container>
       </section>
 
-      {/* 4. GRILLA DE EVENTOS */}
       <section className="events-grid-section py-4">
         <Container>
           <div className="d-flex align-items-center justify-content-between mb-4 border-bottom border-secondary pb-2">

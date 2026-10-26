@@ -16,7 +16,6 @@ import { getEventById, getTicketTypesByEvent, createPaymentPreference } from "..
 import MercadoPagoStep from "./MercadoPagoStep";
 import "./Checkout.css";
 
-// ✅ Se actualizaron los IDs de fallback a 1 y 2 para coincidir con la base de datos
 const TICKETS_FALLBACK = [
   { id: 1, name: "Entrada General", price: 12000, quantityAvailable: 50 },
   { id: 2, name: "Streaming", price: 5000, quantityAvailable: 20 }
@@ -37,7 +36,7 @@ const Checkout = () => {
   const [error, setError] = useState("");
   const [preferenceId, setPreferenceId] = useState(null);
 
-  // Temporizador
+  
   const [timeLeft, setTimeLeft] = useState(TEN_MINUTES_IN_SECONDS);
   const [isExpired, setIsExpired] = useState(false);
 
@@ -102,7 +101,7 @@ const Checkout = () => {
           console.warn("Error cargando entradas desde backend:", tErr.message);
         }
 
-        // ✅ Mapeo flexible para capturar las respuestas reales del backend (.NET camelCase o PascalCase)
+    
         const finalTickets = (ticketsRes && ticketsRes.length > 0) 
           ? ticketsRes.map(t => ({
               id: t.id ?? t.Id ?? t.ticketTypeId,
@@ -149,7 +148,7 @@ const Checkout = () => {
     const selectedItems = ticketTypes
       .filter(t => (quantities[t.id] || 0) > 0)
       .map(t => ({
-        ticketTypeId: Number(t.id), // ✅ Asegura envío numérico entero
+        ticketTypeId: Number(t.id), 
         quantity: quantities[t.id],
         unitPrice: parsePrice(t.price)
       }));
@@ -186,7 +185,7 @@ const Checkout = () => {
 
         <h1 className="checkout-title">Finalizar Compra</h1>
 
-        {/* Banner de Temporizador */}
+      
         <div className={`checkout-timer-banner ${timeLeft < 120 ? 'timer-warning' : ''} ${isExpired ? 'timer-expired' : ''}`}>
           <div className="timer-info">
             <FaClock className="timer-icon" />

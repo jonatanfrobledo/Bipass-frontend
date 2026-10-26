@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from 'react-router-dom';
-import './Register.css'; // Importamos los estilos personalizados
+import './Register.css';
 
 const Register = ({ onRegister }) => {
     const navigate = useNavigate();
@@ -101,7 +101,6 @@ const Register = ({ onRegister }) => {
 
     return (
         <Row className="g-0 vh-100 register-wrapper">
-            {/* Sección de Video de Fondo */}
             <Col md={7} lg={8} className="d-none d-md-flex align-items-center justify-content-center bg-dark overflow-hidden position-relative">
                 <video
                     src="/gifs/video.mp4"
@@ -114,7 +113,6 @@ const Register = ({ onRegister }) => {
                 <div className="video-overlay"></div>
             </Col>
 
-            {/* Sección de Formulario */}
             <Col md={5} lg={4} className="d-flex align-items-center justify-content-center register-bg p-3">
                 <Card className="register-card p-3 shadow-lg">
                     <Card.Body>
@@ -124,7 +122,6 @@ const Register = ({ onRegister }) => {
                         </div>
 
                         <Form onSubmit={handleSubmit}>
-                            {/* Nombre y Apellido en 2 Columnas */}
                             <Row>
                                 <Col sm={6}>
                                     <FormGroup className="mb-3">
@@ -160,7 +157,6 @@ const Register = ({ onRegister }) => {
                                 </Col>
                             </Row>
 
-                            {/* Campo Email */}
                             <FormGroup className="mb-3">
                                 <Form.Label className="input-label">Correo Electrónico</Form.Label>
                                 <Form.Control
@@ -176,7 +172,6 @@ const Register = ({ onRegister }) => {
                                 {errors.email && <p className="error-text">Ingrese un correo válido</p>}
                             </FormGroup>
 
-                            {/* Campo Contraseña */}
                             <FormGroup className="mb-3">
                                 <Form.Label className="input-label">Contraseña</Form.Label>
                                 <Form.Control
@@ -196,7 +191,6 @@ const Register = ({ onRegister }) => {
                                 )}
                             </FormGroup>
 
-                            {/* Campo Fecha de Nacimiento */}
                             <FormGroup className="mb-4">
                                 <Form.Label className="input-label">Fecha de Nacimiento</Form.Label>
                                 <Form.Control
@@ -210,7 +204,6 @@ const Register = ({ onRegister }) => {
                                 {errors.birthdate && <p className="error-text">Seleccione su fecha de nacimiento</p>}
                             </FormGroup>
 
-                            {/* Botón Registrarse */}
                             <Button type="submit" className="neon-btn w-100 mb-3">
                                 CREAR CUENTA
                             </Button>
@@ -218,7 +211,6 @@ const Register = ({ onRegister }) => {
 
                         <hr className="register-divider" />
 
-                        {/* Enlace Iniciar Sesión */}
                         <div className="text-center mt-3">
                             <p className="login-link-text mb-0">
                                 ¿Ya tienes una cuenta? <Link to="/login" className="neon-link">Iniciar sesión</Link>

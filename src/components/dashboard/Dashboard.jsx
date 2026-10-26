@@ -18,7 +18,6 @@ import {
 import { FaRedo, FaInfoCircle, FaExclamationTriangle } from 'react-icons/fa';
 import './Dashboard.css';
 
-// Configuración de las entradas permitidas comercialmente y sus colores asignados
 const ENTRADAS_PERMITIDAS = [
   { nombre: 'general', color: '#7c3aed', modalidad: 'Presencial' },
   { nombre: 'vip', color: '#a78bfa', modalidad: 'Presencial' },
@@ -96,7 +95,6 @@ const Dashboard = ({ userName }) => {
     const tipoOriginal = item.tipo || item.type || item.Type || item.name || item.Name || '';
     const tipoClean = tipoOriginal.toLowerCase().trim();
 
-    // Buscar si coincide con alguna de las entradas comerciales autorizadas
     const configEntrada = ENTRADAS_PERMITIDAS.find(p => p.nombre === tipoClean);
 
     if (!configEntrada) return null; // Si no es una de las 5, se descarta
@@ -121,7 +119,6 @@ const Dashboard = ({ userName }) => {
       const listaOriginal = Array.isArray(data) ? data : (data?.items || []);
 
       if (isMounted.current) {
-        // Normaliza y FILTRA únicamente las entradas permitidas
         const listaFiltrada = listaOriginal
           .map((item, index) => normalizarEntrada(item, index))
           .filter(Boolean); // Elimina los nulos
@@ -129,7 +126,6 @@ const Dashboard = ({ userName }) => {
         if (listaFiltrada.length > 0) {
           setEntradas(listaFiltrada);
         } else {
-          // Si la API no trae esas entradas específicas, carga el MOCK oficial
           setEntradas(ENTRADAS_MOCK);
         }
       }
@@ -214,7 +210,7 @@ const Dashboard = ({ userName }) => {
   return (
     <div className="dashboard-wrapper">
       
-      {/* --- HERO BANNER --- */}
+
       <section className="dashboard-hero-container mb-5">
         <video src="/gifs/Dashboard.mp4" autoPlay muted loop className="hero-video-bg" />
         <div className="hero-overlay">
@@ -242,7 +238,6 @@ const Dashboard = ({ userName }) => {
 
       <Container className="dashboard-content pb-5">
 
-        {/* --- SECCIÓN 1: MODALIDADES Y PROPUESTA DE VALOR --- */}
         <section id="como-funciona" className="modalities-section mb-5">
           <div className="text-center mb-4">
             <span className="text-purple-accent text-uppercase fw-bold tracking-wider">Dos Formas de Disfrutar</span>
@@ -251,7 +246,6 @@ const Dashboard = ({ userName }) => {
           </div>
 
           <Row className="g-4">
-            {/* Tarjeta Modalidad Presencial */}
             <Col xs={12} md={6}>
               <div className="modality-card glass-card h-100 p-4">
                 <div className="modality-icon-wrapper mb-3 text-purple">
@@ -268,7 +262,6 @@ const Dashboard = ({ userName }) => {
               </div>
             </Col>
 
-            {/* Tarjeta Modalidad Streaming */}
             <Col xs={12} md={6}>
               <div className="modality-card glass-card h-100 p-4">
                 <div className="modality-icon-wrapper mb-3 text-cyan">
@@ -287,7 +280,6 @@ const Dashboard = ({ userName }) => {
           </Row>
         </section>
 
-        {/* --- SECCIÓN 2: BENEFICIOS DE LA PLATAFORMA --- */}
         <section className="benefits-section mb-5">
           <div className="glass-panel p-4 p-md-5">
             <div className="row align-items-center g-4">
@@ -356,7 +348,6 @@ const Dashboard = ({ userName }) => {
           </div>
         </section>
 
-        {/* --- SECCIÓN 3: CATÁLOGO DE ENTRADAS --- */}
         <section id="catalogo" className="catalog-section">
           
           <div className="section-header mb-4">
@@ -364,11 +355,9 @@ const Dashboard = ({ userName }) => {
             <div className="section-title-line"></div>
           </div>
 
-          {/* --- Toolbar / Buscador y Filtros --- */}
           <div className="toolbar-glass mb-4 p-3 p-md-4">
             <div className="row g-3 align-items-center">
               
-              {/* Buscador */}
               <div className="col-12 col-md-5">
                 <InputGroup className="custom-input-group">
                   <InputGroup.Text className="input-icon-bg">
@@ -384,7 +373,6 @@ const Dashboard = ({ userName }) => {
                 </InputGroup>
               </div>
 
-              {/* Filtro Dropdown */}
               <div className="col-6 col-md-4 col-lg-3">
                 <Dropdown onSelect={(k) => setFiltro(k || 'todas')} className="w-100">
                   <Dropdown.Toggle className="custom-dropdown-toggle w-100 d-flex justify-content-between align-items-center">
@@ -402,7 +390,6 @@ const Dashboard = ({ userName }) => {
                 </Dropdown>
               </div>
 
-              {/* Test Backend Button */}
               <div className="col-6 col-md-3 col-lg-4 d-flex align-items-center gap-2 justify-content-md-end">
                 <Button variant="outline-light" className="btn-test-backend" onClick={testBackendConnection}>
                   Probar backend
@@ -419,7 +406,6 @@ const Dashboard = ({ userName }) => {
             </div>
           </div>
 
-          {/* Mensaje de Advertencia si falla Backend */}
           {error && (
             <Alert className="custom-alert-glass mb-4">
               <div className="d-flex align-items-center justify-content-between flex-wrap gap-2">
@@ -437,7 +423,6 @@ const Dashboard = ({ userName }) => {
             </Alert>
           )}
 
-          {/* --- Grilla de Entradas --- */}
           <div className="row g-4">
             {entradasFiltradas.length > 0 ? (
               entradasFiltradas.map((entrada) => {
@@ -448,12 +433,10 @@ const Dashboard = ({ userName }) => {
                   <div key={entrada.id} className="col-12 col-md-6 col-lg-4 d-flex">
                     <Card className="entrada-card-v2 w-100 h-100 border-0">
                       
-                      {/* Borde superior de color dinámico */}
                       <div className="card-top-accent" style={{ backgroundColor: entrada.color }}></div>
 
                       <Card.Body className="d-flex flex-column p-4">
                         
-                        {/* Cabecera Tarjeta */}
                         <div className="d-flex justify-content-between align-items-start mb-3">
                           <h4 className="entrada-title mb-0" style={{ color: entrada.color }}>
                             {entrada.tipo}
@@ -463,7 +446,6 @@ const Dashboard = ({ userName }) => {
                           </span>
                         </div>
 
-                        {/* Modalidad */}
                         <div className="modalidad-tag mb-3 d-flex align-items-center">
                           <span className="text-muted me-2 small">Modalidad:</span>
                           <span className={`badge-modalidad ${esVirtual ? 'badge-virtual' : 'badge-fisica'}`}>
@@ -472,12 +454,10 @@ const Dashboard = ({ userName }) => {
                           </span>
                         </div>
 
-                        {/* Descripción */}
                         <Card.Text className="entrada-description flex-grow-1 mb-4">
                           {entrada.descripcion}
                         </Card.Text>
 
-                        {/* Footer Tarjeta: Precio y Comprar */}
                         <div className="pt-3 border-top border-secondary-subtle d-flex justify-content-between align-items-center mt-auto">
                           <div>
                             <span className="price-label d-block text-muted">Precio</span>

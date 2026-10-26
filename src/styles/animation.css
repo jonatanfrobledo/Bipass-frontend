@@ -46,7 +46,6 @@
     }
 }
 
-/* Clases de animación aplicadas a elementos del Dashboard */
 .animate-fade-in {
     animation: fadeIn 0.8s ease-out forwards;
 }
@@ -67,7 +66,6 @@
     animation: slideIn 0.6s ease-out both;
 }
 
-/* Ajustes para el efecto escalonado de las tarjetas */
 .animate-stagger .entrada-card-wrapper:nth-child(1) {
     animation-delay: 0.1s;
 }
@@ -108,7 +106,6 @@
     animation-delay: 1.0s;
 }
 
-/* Otros estilos específicos para el dashboard */
 .stats-bar {
     display: flex;
     justify-content: space-around;

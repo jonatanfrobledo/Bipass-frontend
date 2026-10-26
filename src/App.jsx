@@ -10,9 +10,6 @@ import MyTickets from "./components/myTickets/MyTickets";
 import Checkout from "./components/checkout/Checkout";
 import { login as loginApi, register as registerApi } from './services/apiService';
 
-/* ----------------------------------------------------
-   GUARD PARA RUTAS PRIVADAS
-   ---------------------------------------------------- */
 const ProtectedRoute = ({ isAuthenticated, children }) => {
   const location = useLocation();
 
@@ -29,7 +26,7 @@ const App = () => {
 
   const navigate = useNavigate();
 
-  // LOGIN CONECTADO AL BACKEND
+  // LOGIN CONNECT TO BACKEND
   const handleLogin = async (email, password, redirectPath = '/billboard') => {
     try {
       const response = await loginApi({ email, password });
@@ -43,7 +40,7 @@ const App = () => {
     }
   };
 
-  // REGISTRO CONECTADO AL BACKEND
+  // REGISTER CONNECT TO BACKEND
   const handleRegister = async (userData) => {
     try {
       await registerApi(userData);
@@ -63,7 +60,6 @@ const App = () => {
     }
   };
 
-  // CERRAR SESIÓN
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
@@ -75,16 +71,15 @@ const App = () => {
       <AppNavbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
 
       <Routes>
-        {/* RUTAS PÚBLICAS PRINCIPALES */}
+
         <Route path="/"element={<Billboard isAuthenticated={isAuthenticated} />} />
         <Route path="/billboard" element={<Billboard isAuthenticated={isAuthenticated} />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        {/* AUTENTICACIÓN */}
+
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register onRegister={handleRegister} />} />
 
-        {/* RUTAS PRIVADAS */}
         <Route
           path="/mytickets"
           element={
@@ -102,7 +97,6 @@ const App = () => {
           }
         />
 
-        {/* RUTA POR DEFECTO */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

@@ -1,6 +1,4 @@
-/* ==========================================
-   PANTALLA DE CARGA Y CONTENEDOR GENERAL
-   ========================================== */
+
 .passline-billboard {
   background-color: #0b0b0f;
   color: #ffffff;
@@ -16,16 +14,12 @@
   background-color: #0b0b0f;
 }
 
-/* ==========================================
-   1. CARRUSEL PRINCIPAL (HERO)
-   ========================================== */
 .hero-carousel-section {
   position: relative;
   width: 100%;
   background-color: #000;
 }
 
-/* Definimos una altura real para que no colapse */
 .passline-hero-carousel .carousel-item {
   height: 60vh;
   min-height: 420px;
@@ -87,9 +81,6 @@
   font-weight: 500;
 }
 
-/* ==========================================
-   2. CARRUSEL RÁPIDO BANNER
-   ========================================== */
 .fast-banner-section {
   background: #121218;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -134,9 +125,6 @@
   margin-bottom: 0.2rem;
 }
 
-/* ==========================================
-   3. BUSCADOR Y TARJETAS
-   ========================================== */
 .passline-search-group {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
