@@ -12,6 +12,7 @@ const Register = ({ onRegister }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [birthdate, setBirthdate] = useState('');
+    const [isOrganizer, setIsOrganizer] = useState(false);
 
     const [errors, setErrors] = useState({
         firstName: false,
@@ -89,7 +90,8 @@ const Register = ({ onRegister }) => {
                         lastName, 
                         email, 
                         password, 
-                        birthdate 
+                        birthdate,
+                        isOrganizer
                     });
                 }
                 navigate('/billboard'); 
@@ -102,14 +104,7 @@ const Register = ({ onRegister }) => {
     return (
         <Row className="g-0 vh-100 register-wrapper">
             <Col md={7} lg={8} className="d-none d-md-flex align-items-center justify-content-center bg-dark overflow-hidden position-relative">
-                <video
-                    src="/gifs/video.mp4"
-                    alt="Video de fondo para registro"
-                    className="register-video"
-                    autoPlay
-                    loop
-                    muted
-                />
+                <video src="/gifs/video.mp4" className="register-video" autoPlay loop muted />
                 <div className="video-overlay"></div>
             </Col>
 
@@ -129,9 +124,7 @@ const Register = ({ onRegister }) => {
                                         <Form.Control
                                             className={`custom-input ${errors.firstName ? "input-error" : ""}`}
                                             type="text"
-                                            name="firstName"
                                             placeholder="Ej: Jonatan"
-                                            autoComplete="given-name"
                                             onChange={handleChange(setFirstName, "firstName")}
                                             value={firstName}
                                             ref={firstNameRef}
@@ -145,9 +138,7 @@ const Register = ({ onRegister }) => {
                                         <Form.Control
                                             className={`custom-input ${errors.lastName ? "input-error" : ""}`}
                                             type="text"
-                                            name="lastName"
                                             placeholder="Ej: Pérez"
-                                            autoComplete="family-name"
                                             onChange={handleChange(setLastName, "lastName")}
                                             value={lastName}
                                             ref={lastNameRef}
@@ -162,9 +153,7 @@ const Register = ({ onRegister }) => {
                                 <Form.Control
                                     className={`custom-input ${errors.email ? "input-error" : ""}`}
                                     type="email"
-                                    name="email"
                                     placeholder="ejemplo@correo.com"
-                                    autoComplete="email"
                                     onChange={handleChange(setEmail, "email")}
                                     value={email}
                                     ref={emailRef}
@@ -177,31 +166,37 @@ const Register = ({ onRegister }) => {
                                 <Form.Control
                                     className={`custom-input ${errors.password ? "input-error" : ""}`}
                                     type="password"
-                                    name="password"
                                     placeholder="••••••••"
-                                    autoComplete="new-password"
                                     onChange={handleChange(setPassword, "password")}
                                     value={password}
                                     ref={passwordRef}
                                 />
                                 {errors.password && (
-                                    <p className="error-text">
-                                        Min. 8 chars, 1 mayúscula y 1 caracter especial
-                                    </p>
+                                    <p className="error-text">Min. 8 chars, 1 mayúscula y 1 caracter especial</p>
                                 )}
                             </FormGroup>
 
-                            <FormGroup className="mb-4">
+                            <FormGroup className="mb-3">
                                 <Form.Label className="input-label">Fecha de Nacimiento</Form.Label>
                                 <Form.Control
                                     className={`custom-input date-input ${errors.birthdate ? "input-error" : ""}`}
                                     type="date"
-                                    name="birthdate"
                                     onChange={handleChange(setBirthdate, "birthdate")}
                                     value={birthdate}
                                     ref={birthdateRef}
                                 />
                                 {errors.birthdate && <p className="error-text">Seleccione su fecha de nacimiento</p>}
+                            </FormGroup>
+
+                            <FormGroup className="mb-4">
+                                <Form.Check
+                                    type="checkbox"
+                                    id="organizer-checkbox"
+                                    className="input-label text-light"
+                                    label="Quiero registrarme como Organizador"
+                                    checked={isOrganizer}
+                                    onChange={(e) => setIsOrganizer(e.target.checked)}
+                                />
                             </FormGroup>
 
                             <Button type="submit" className="neon-btn w-100 mb-3">

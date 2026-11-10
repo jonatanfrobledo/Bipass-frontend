@@ -1,0 +1,162 @@
+.myevents-wrapper {
+  min-height: 100vh;
+  background-color: #0b0b13;
+  color: #ffffff;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.myevents-loading-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0b0b13;
+}
+
+.loading-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.event-manage-card {
+  background: rgba(20, 20, 30, 0.7) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 16px !important;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  overflow: hidden;
+}
+
+.event-manage-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 65, 108, 0.4) !important;
+  box-shadow: 0 12px 30px rgba(255, 65, 108, 0.15);
+}
+
+.event-card-title {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1.4;
+}
+
+.event-status-badge {
+  background: rgba(255, 65, 108, 0.15);
+  color: #ff416c;
+  border: 1px solid rgba(255, 65, 108, 0.3);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+
+.event-id-tag {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.8rem;
+  font-family: monospace;
+}
+
+.event-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.detail-icon {
+  color: #ff416c;
+  font-size: 0.95rem;
+  min-width: 16px;
+}
+
+
+.table-responsive {
+  border-radius: 16px;
+}
+
+.table-dark {
+  --bs-table-bg: transparent;
+  --bs-table-striped-bg: rgba(255, 255, 255, 0.01);
+  --bs-table-hover-bg: rgba(255, 255, 255, 0.04);
+  --bs-table-hover-color: #ffffff;
+  color: #e2e8f0;
+}
+
+.table-dark tbody tr {
+  transition: background-color 0.2s ease-in-out;
+}
+
+.fw-mono {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+
+.btn-action-danger-glow {
+  transition: all 0.2s ease;
+}
+
+.btn-action-danger-glow:hover {
+  background-color: #dc3545;
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(220, 53, 69, 0.4);
+}
+
+.modal-content {
+  background: #14141e !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+  color: #ffffff !important;
+}
+
+.modal-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background-color: transparent !important;
+}
+
+.modal-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background-color: transparent !important;
+}
+
+.modal-body {
+  background-color: transparent !important;
+}
+
+.form-control, .form-select {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  padding: 10px 14px;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: #ff416c !important;
+  box-shadow: 0 0 0 3px rgba(255, 65, 108, 0.25) !important;
+  color: #ffffff !important;
+}
+
+.form-select option {
+  background-color: #14141e;
+  color: #ffffff;
+}
+
+.btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}

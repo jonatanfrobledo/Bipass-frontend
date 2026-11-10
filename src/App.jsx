@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import Login from "./components/login/Login";
-import Dashboard from "./components/dashboard/Dashboard";
+import OrganizerDashboard from "./components/dashboard/Dashboard";
 import Register from "./components/register/Register";
 import Billboard from "./components/billboard/Billboard";
 import AppNavbar from "./components/navbar/Navbar"; 
 import Contact from "./components/contacts/Contact";
 import MyTickets from "./components/myTickets/MyTickets";
+import MyEvents from "./components/events/MyEvents";
+import AdminEvents from "./components/admin/AdminEvents";
 import Checkout from "./components/checkout/Checkout";
 import { login as loginApi, register as registerApi } from './services/apiService';
 
@@ -24,14 +26,37 @@ const App = () => {
     return !!localStorage.getItem('token');
   });
 
+  const [userRole, setUserRole] = useState(() => {
+    return localStorage.getItem('user_role') || '';
+  });
+
   const navigate = useNavigate();
 
-  // LOGIN CONNECT TO BACKEND
-  const handleLogin = async (email, password, redirectPath = '/billboard') => {
+  const extractRoleFromToken = (token) => {
     try {
-      const response = await loginApi({ email, password });
-      console.log("Login exitoso:", response);  
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      
+      const payload = JSON.parse(jsonPayload);
+      return payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || payload["role"] || '';
+    } catch (e) {
+      return '';
+    }
+  };
+
+  const handleLogin = async (credentials, redirectPath = '/billboard') => {
+    try {
+      const response = await loginApi(credentials);
       if (response && response.token) {
+        localStorage.setItem('token', response.token);
+        
+        const role = response.role || extractRoleFromToken(response.token);
+        localStorage.setItem('user_role', role);
+        
+        setUserRole(role);
         setIsAuthenticated(true);
         navigate(redirectPath);
       }
@@ -40,7 +65,6 @@ const App = () => {
     }
   };
 
-  // REGISTER CONNECT TO BACKEND
   const handleRegister = async (userData) => {
     try {
       await registerApi(userData);
@@ -50,6 +74,11 @@ const App = () => {
       });
 
       if (loginResponse && loginResponse.token) {
+        localStorage.setItem('token', loginResponse.token);
+        const role = loginResponse.role || extractRoleFromToken(loginResponse.token);
+        localStorage.setItem('user_role', role);
+
+        setUserRole(role);
         setIsAuthenticated(true);
         navigate('/billboard');
       } else {
@@ -62,23 +91,43 @@ const App = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user_role');
     setIsAuthenticated(false);
+    setUserRole('');
     navigate('/');
   };
 
   return (
     <>
-      <AppNavbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+      <AppNavbar isAuthenticated={isAuthenticated} userRole={userRole} onLogout={handleLogout} />
 
       <Routes>
-
-        <Route path="/"element={<Billboard isAuthenticated={isAuthenticated} />} />
+        <Route path="/" element={<Billboard isAuthenticated={isAuthenticated} />} />
         <Route path="/billboard" element={<Billboard isAuthenticated={isAuthenticated} />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-
+        
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register onRegister={handleRegister} />} />
+
+        <Route path="/dashboard" element={<OrganizerDashboard />} />
+
+        <Route 
+          path="/my-events" 
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <MyEvents />
+            </ProtectedRoute>
+          } 
+        />
+
+        <Route 
+          path="/admin/events" 
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <AdminEvents />
+            </ProtectedRoute>
+          } 
+        />
 
         <Route
           path="/mytickets"
@@ -88,6 +137,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/checkout/:id"
           element={

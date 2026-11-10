@@ -1,50 +1,65 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, InputGroup, Form, Carousel, Alert, Badge } from 'react-bootstrap';
-import { FaMapMarkerAlt, FaCalendarAlt, FaSearch, FaRedo, FaExclamationTriangle, FaTicketAlt, FaFire } from 'react-icons/fa';
+import { 
+  FaMapMarkerAlt, 
+  FaSearch, 
+  FaRedo, 
+  FaExclamationTriangle, 
+  FaTicketAlt, 
+  FaFire,
+  FaTv,
+  FaVideo,
+  FaChevronRight
+} from 'react-icons/fa';
 import { getEvents } from '../../services/apiService';
 import './Billboard.css';
 
 const EVENTS_FALLBACK = [
   {
     id: 1,
-    title: 'International Music Festival 2026',
-    description: 'El festival de música más grande de la región con artistas internacionales.',
-    date: '15 Octubre 2026',
-    location: 'Parque Independencia, Rosario',
+    title: 'MARO - SO MUCH HAS CHANGED',
+    description: 'La destacada artista portuguesa presenta su nuevo tour internacional en vivo.',
+    rawDate: '2026-11-12T19:00:00',
+    location: 'C Art Media, Buenos Aires',
     image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80',
-    category: 'Festival',
-    price: '$15.000'
+    category: 'Concierto',
+    price: '$15.000',
+    isStreaming: false
   },
   {
     id: 2,
-    title: 'Rock Legends Night',
-    description: 'Reviví los mejores clásicos del rock en vivo con bandas tributo oficiales.',
-    date: '22 Octubre 2026',
-    location: 'Metropolitano, Rosario',
+    title: 'El Kuelgue en San Juan',
+    description: 'Presentación exclusiva repasando todos los grandes éxitos de su trayectoria.',
+    rawDate: '2026-11-13T21:00:00',
+    location: 'Complejo La Meseta, San Juan',
     image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80',
-    category: 'Concierto',
-    price: '$12.000'
+    category: 'Rock / Fusión',
+    price: '$12.000',
+    isStreaming: true,
+    streamingUrl: 'https://youtube.com/live/demo'
   },
   {
     id: 3,
-    title: 'Electronic Warehouse Party',
-    description: 'Una noche inmersiva de techno y house con DJs de renombre mundial.',
-    date: '05 Noviembre 2026',
+    title: 'Electronic Warehouse Night',
+    description: 'Una noche inmersiva de techno y house con los DJs más destacados.',
+    rawDate: '2026-11-13T19:00:00',
     location: 'Lotus Club, Rosario',
     image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
     category: 'Fiesta',
-    price: '$8.500'
+    price: '$8.500',
+    isStreaming: true
   },
   {
     id: 4,
-    title: 'Urban Music Sunset',
-    description: 'Trap, reggaeton y hip-hop al aire libre con vista al río.',
-    date: '12 Noviembre 2026',
-    location: 'La Florida, Rosario',
+    title: 'IVAN NOBLE - Canciones Traspapeladas',
+    description: 'Noche acústica e íntima repasando grandes himnos del rock nacional.',
+    rawDate: '2026-11-13T21:00:00',
+    location: 'La Trastienda, Buenos Aires',
     image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80',
-    category: 'Urbano',
-    price: '$10.000'
+    category: 'Acústico',
+    price: '$10.000',
+    isStreaming: false
   }
 ];
 
@@ -52,6 +67,7 @@ const Billboard = ({ isAuthenticated }) => {
   const navigate = useNavigate();
   const [events, setEvents] = useState(EVENTS_FALLBACK);
   const [search, setSearch] = useState('');
+  const [filterModality, setFilterModality] = useState('todas');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -60,20 +76,28 @@ const Billboard = ({ isAuthenticated }) => {
   }, []);
 
   const normalizarEvento = (e, index) => {
-    let fechaFormateada = 'Fecha a confirmar';
-    const rawDate = e.date || e.Date || e.dateTime || e.DateTime;
+    const rawDate = e.date || e.Date || e.dateTime || e.DateTime || e.rawDate;
+    let dayNum = '12';
+    let monthShort = 'NOV';
+    let yearNum = '2026';
+    let timeStr = '20:00';
+
     if (rawDate) {
-      const parsedDate = new Date(rawDate);
-      if (!isNaN(parsedDate.getTime())) {
-        fechaFormateada = parsedDate.toLocaleDateString('es-AR', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        });
-      } else {
-        fechaFormateada = rawDate;
+      const d = new Date(rawDate);
+      if (!isNaN(d.getTime())) {
+        dayNum = d.getDate().toString().padStart(2, '0');
+        monthShort = d.toLocaleDateString('es-AR', { month: 'short' }).replace('.', '').toUpperCase();
+        yearNum = d.getFullYear();
+        timeStr = d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
       }
     }
+
+    const isStream = Boolean(e.isStreaming || e.IsStreaming || e.streamingUrl || e.StreamingUrl);
+    const hasVenue = Boolean(e.location || e.Location || e.venue?.name || e.venueName);
+    
+    let modalityTag = 'PRESENCIAL';
+    if (isStream && hasVenue) modalityTag = 'HÍBRIDO';
+    else if (isStream) modalityTag = 'STREAMING';
 
     const rawPrice = e.price ?? e.Price;
     let priceFormatted = 'Consultar';
@@ -83,14 +107,18 @@ const Billboard = ({ isAuthenticated }) => {
     }
 
     return {
-      id: e.id || e.Id || `evt-${index}-${Math.random()}`,
-      title: e.title || e.Title || e.name || e.Name || 'Evento sin título',
+      id: e.id || e.Id || `evt-${index}`,
+      title: e.title || e.Title || e.name || e.Name || 'Evento BIPASS',
       description: e.description || e.Description || 'Sin descripción disponible.',
-      date: fechaFormateada,
-      location: e.location || e.Location || 'Rosario, Santa Fe',
+      dayNum,
+      monthShort,
+      yearNum,
+      timeStr,
+      location: e.location || e.Location || e.venue?.name || e.venueName || (isStream ? 'Transmisión Online' : 'Rosario, Argentina'),
       image: e.image || e.Image || e.imageUrl || e.ImageUrl || 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80',
       category: e.category || e.Category || 'Espectáculo',
-      price: priceFormatted
+      price: priceFormatted,
+      modalityTag
     };
   };
 
@@ -109,66 +137,70 @@ const Billboard = ({ isAuthenticated }) => {
       if (listaOriginal.length > 0) {
         setEvents(listaOriginal.map((item, index) => normalizarEvento(item, index)));
       } else {
-        setEvents(EVENTS_FALLBACK);
+        setEvents(EVENTS_FALLBACK.map((item, index) => normalizarEvento(item, index)));
       }
     } catch (err) {
       console.warn('Cargando eventos de respaldo:', err.message);
       setError('Servidor no disponible. Mostrando cartelera destacada de prueba.');
-      setEvents(EVENTS_FALLBACK);
+      setEvents(EVENTS_FALLBACK.map((item, index) => normalizarEvento(item, index)));
     } finally {
       setLoading(false);
     }
   };
 
-  const handleBuy = (e, eventId) => {
-
-  if (e && e.preventDefault) e.preventDefault();
-  if (e && e.stopPropagation) e.stopPropagation();
-
-  const targetPath = `/checkout/${eventId}`;
-  
-  if (!isAuthenticated) {
-  
-    navigate('/login', { state: { from: targetPath } });
-  } else {
-  
-    navigate(targetPath);
-  }
+  const handleBuy = (eventId) => {
+    if (!eventId) return;
+    const targetPath = `/checkout/${eventId}`;
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: targetPath } });
+    } else {
+      navigate(targetPath);
+    }
   };
 
-  const filteredEvents = events.filter(
-    (e) =>
-      (e.title || '').toLowerCase().includes(search.toLowerCase()) ||
-      (e.description || '').toLowerCase().includes(search.toLowerCase()) ||
-      (e.location || '').toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredEvents = events.filter((e) => {
+    const matchesSearch = (e.title || '').toLowerCase().includes(search.toLowerCase()) ||
+                          (e.description || '').toLowerCase().includes(search.toLowerCase()) ||
+                          (e.location || '').toLowerCase().includes(search.toLowerCase());
+
+    if (!matchesSearch) return false;
+
+    if (filterModality === 'presencial') return e.modalityTag === 'PRESENCIAL';
+    if (filterModality === 'streaming') return e.modalityTag === 'STREAMING';
+    if (filterModality === 'hibrido') return e.modalityTag === 'HÍBRIDO';
+    return true;
+  });
 
   const mainFeaturedEvents = events.slice(0, 3);
-  const fastBannerEvents = events.length > 3 ? events.slice(3, 7) : events;
 
   if (loading) {
     return (
       <div className="billboard-loading-screen">
-        <div className="spinner-border text-danger" role="status" style={{ width: '3.5rem', height: '3.5rem' }} />
-        <p className="mt-3 text-light fw-bold">Cargando cartelera de Bipass...</p>
+        <div className="loading-card text-center p-5">
+          <div className="spinner-border text-purple mb-3" role="status" style={{ width: '3.5rem', height: '3.5rem' }} />
+          <h4 className="text-white fw-semibold">Sincronizando Cartelera BIPASS...</h4>
+          <p className="text-muted mb-0">Cargando eventos presenciales y emisiones en streaming</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="passline-billboard">
-      
+    <div className="bipass-billboard-wrapper">
       
       {error && (
-        <Container className="pt-3">
-          <Alert variant="dark" className="border-danger text-light bg-dark shadow-sm mb-0">
-            <div className="d-flex align-items-center justify-content-between">
-              <div>
-                <FaExclamationTriangle className="text-warning me-2 fs-5" />
-                <small>{error}</small>
+        <Container className="pt-4">
+          <Alert className="custom-alert-glass mb-0">
+            <div className="d-flex align-items-center justify-content-between flex-wrap gap-2">
+              <div className="d-flex align-items-center">
+                <FaExclamationTriangle className="text-warning fs-4 me-3" />
+                <div>
+                  <strong className="text-white">Aviso del sistema:</strong>
+                  <p className="mb-0 text-muted small">{error}</p>
+                </div>
               </div>
-              <Button variant="outline-light" size="sm" onClick={loadEvents}>
-                <FaRedo className="me-1" /> Sincronizar
+              <Button variant="link" className="btn-retry p-0 text-decoration-none" onClick={loadEvents}>
+                <FaRedo className="me-1" /> Reintentar
               </Button>
             </div>
           </Alert>
@@ -176,73 +208,44 @@ const Billboard = ({ isAuthenticated }) => {
       )}
 
       {mainFeaturedEvents.length > 0 && (
-        <section className="hero-carousel-section pt-3">
-          <Carousel interval={4000} controls={true} indicators={true} className="passline-hero-carousel">
-            {mainFeaturedEvents.map((event) => (
-              <Carousel.Item key={`hero-${event.id}`}>
-                <div className="hero-slide-wrapper">
-                  <img className="hero-slide-img" src={event.image} alt={event.title} />
-                  <div className="hero-slide-overlay" />
-                  <div className="hero-slide-caption">
-                    <Container>
-                      <Badge bg="danger" className="mb-2 px-3 py-2 fs-6 text-uppercase tracking-wider">
-                        <FaFire className="me-1" /> Destacado VIP
-                      </Badge>
+        <section className="hero-carousel-section pt-4">
+          <Container>
+            <Carousel interval={4500} controls={true} indicators={true} className="bipass-hero-carousel">
+              {mainFeaturedEvents.map((event) => (
+                <Carousel.Item key={`hero-${event.id}`}>
+                  <div className="hero-slide-wrapper">
+                    <img className="hero-slide-img" src={event.image} alt={event.title} />
+                    <div className="hero-slide-overlay" />
+                    <div className="hero-slide-caption">
+                      <div className="d-flex align-items-center gap-2 mb-2">
+                        <span className="hero-badge-fire">
+                          <FaFire className="me-1" /> DESTACADO BIPASS
+                        </span>
+                        <span className={`modality-pill pill-${event.modalityTag.toLowerCase()}`}>
+                          {event.modalityTag === 'STREAMING' && <FaTv className="me-1" />}
+                          {event.modalityTag === 'HÍBRIDO' && <FaVideo className="me-1" />}
+                          {event.modalityTag}
+                        </span>
+                      </div>
+
                       <h1 className="hero-title">{event.title}</h1>
                       <p className="hero-subtitle d-none d-md-block">{event.description}</p>
+                      
                       <div className="hero-meta my-3">
-                        <span className="me-4"><FaCalendarAlt className="text-danger me-2" />{event.date}</span>
-                        <span><FaMapMarkerAlt className="text-danger me-2" />{event.location}</span>
+                        <span className="me-4 text-white-50">
+                          <strong className="text-purple me-1">{event.dayNum} {event.monthShort}</strong> - {event.timeStr} hs
+                        </span>
+                        <span className="text-white-50">
+                          <FaMapMarkerAlt className="text-purple me-1" />{event.location}
+                        </span>
                       </div>
+
                       <Button 
-                        variant="danger" 
-                        size="lg" 
-                        className="fw-bold px-4 py-2 passline-btn"
+                        className="btn-hero-cta d-inline-flex align-items-center gap-2"
                         onClick={() => handleBuy(event.id)}
                       >
-                        <FaTicketAlt className="me-2" /> Comprar Entradas
+                        <FaTicketAlt /> Comprar Entradas
                       </Button>
-                    </Container>
-                  </div>
-                </div>
-              </Carousel.Item>
-            ))}
-          </Carousel>
-        </section>
-      )}
-
-      
-      {fastBannerEvents.length > 0 && (
-        <section className="fast-banner-section py-4">
-          <Container>
-            <div className="d-flex align-items-center justify-content-between mb-2">
-              <h5 className="section-subtitle text-uppercase tracking-wider text-light mb-0">
-                🔥 Más buscados esta semana
-              </h5>
-              <small className="text-muted">Actualización en vivo</small>
-            </div>
-            
-            <Carousel interval={2500} indicators={false} controls={false} className="fast-carousel shadow-sm">
-              {fastBannerEvents.map((event) => (
-                <Carousel.Item key={`fast-${event.id}`}>
-                  <div className="fast-banner-card">
-                    <img src={event.image} alt={event.title} className="fast-banner-img" />
-                    <div className="fast-banner-content">
-                      <div className="d-flex align-items-center justify-content-between">
-                        <div>
-                          <Badge bg="dark" className="border border-secondary mb-1">{event.category}</Badge>
-                          <h4 className="fast-banner-title mb-0">{event.title}</h4>
-                          <small className="text-light-50"><FaMapMarkerAlt className="me-1" />{event.location}</small>
-                        </div>
-                        <Button 
-                          variant="light" 
-                          size="sm" 
-                          className="fw-bold px-3"
-                          onClick={() => handleBuy(event.id)}
-                        >
-                          Ver Ticks
-                        </Button>
-                      </div>
                     </div>
                   </div>
                 </Carousel.Item>
@@ -252,78 +255,130 @@ const Billboard = ({ isAuthenticated }) => {
         </section>
       )}
 
-      <section className="search-section py-3">
+      <section className="search-section py-4">
         <Container>
-          <Row className="justify-content-center">
-            <Col md={8} lg={6}>
-              <InputGroup className="passline-search-group">
-                <InputGroup.Text className="search-icon-box">
-                  <FaSearch />
-                </InputGroup.Text>
-                <Form.Control
-                  placeholder="Buscar por artista, evento o ciudad..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="search-input"
-                />
-              </InputGroup>
-            </Col>
-          </Row>
+          <div className="toolbar-glass p-3 p-md-4">
+            <Row className="g-3 align-items-center">
+              <Col md={6}>
+                <InputGroup className="custom-input-group">
+                  <InputGroup.Text className="input-icon-bg">
+                    <FaSearch />
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Buscar por artista, show, lugar o ciudad..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="custom-form-input"
+                  />
+                </InputGroup>
+              </Col>
+              
+              <Col md={6} className="d-flex gap-2 justify-content-md-end flex-wrap">
+                <Button 
+                  className={`btn-modality-filter ${filterModality === 'todas' ? 'active' : ''}`}
+                  onClick={() => setFilterModality('todas')}
+                >
+                  Todas
+                </Button>
+                <Button 
+                  className={`btn-modality-filter ${filterModality === 'presencial' ? 'active' : ''}`}
+                  onClick={() => setFilterModality('presencial')}
+                >
+                  <FaMapMarkerAlt className="me-1" /> Presenciales
+                </Button>
+                <Button 
+                  className={`btn-modality-filter filter-stream ${filterModality === 'streaming' ? 'active' : ''}`}
+                  onClick={() => setFilterModality('streaming')}
+                >
+                  <FaTv className="me-1" /> Streaming
+                </Button>
+                <Button 
+                  className={`btn-modality-filter filter-hibrido ${filterModality === 'hibrido' ? 'active' : ''}`}
+                  onClick={() => setFilterModality('hibrido')}
+                >
+                  <FaVideo className="me-1" /> Híbridos
+                </Button>
+              </Col>
+            </Row>
+          </div>
         </Container>
       </section>
 
-      <section className="events-grid-section py-4">
+      <section className="events-grid-section pb-5">
         <Container>
-          <div className="d-flex align-items-center justify-content-between mb-4 border-bottom border-secondary pb-2">
-            <h3 className="section-title text-white fw-bold mb-0">Cartelera General</h3>
-            <span className="badge bg-secondary">{filteredEvents.length} Eventos disponibles</span>
+          <div className="d-flex align-items-center justify-content-between mb-4">
+            <div>
+              <span className="text-purple-accent text-uppercase fw-bold tracking-wider">Cartelera Oficial</span>
+              <h2 className="section-main-heading text-white mt-1">Próximos Eventos</h2>
+            </div>
+            <span className="badge bg-purple-glow text-purple px-3 py-2 border border-purple-subtle">
+              {filteredEvents.length} Disponibles
+            </span>
           </div>
 
           {filteredEvents.length > 0 ? (
             <Row xs={1} sm={2} md={3} lg={4} className="g-4">
               {filteredEvents.map((event) => (
                 <Col key={event.id}>
-                  <Card className="passline-card h-100 border-0">
-                    <div className="card-img-wrapper">
-                      <Card.Img variant="top" src={event.image} alt={event.title} className="passline-card-img" />
-                      <Badge bg="dark" className="category-badge">{event.category}</Badge>
-                      <div className="price-tag">{event.price}</div>
-                    </div>
-                    
-                    <Card.Body className="d-flex flex-column bg-dark text-white p-3">
-                      <Card.Title className="fw-bold fs-6 mb-2 text-truncate" title={event.title}>
-                        {event.title}
-                      </Card.Title>
+                  <Card 
+                    className="passline-style-card border-0 h-100"
+                    onClick={() => handleBuy(event.id)}
+                  >
+                    <div className="card-poster-wrapper">
+                      <img src={event.image} alt={event.title} className="card-poster-img" />
                       
-                      <p className="card-description small text-muted flex-grow-1 mb-3">
-                        {event.description}
-                      </p>
-                      
-                      <div className="card-info-item small text-light-50 mb-1">
-                        <FaCalendarAlt className="me-2 text-danger" />
-                        <span>{event.date}</span>
+                      <span className={`card-modality-badge badge-${event.modalityTag.toLowerCase()}`}>
+                        {event.modalityTag === 'STREAMING' && <FaTv className="me-1" />}
+                        {event.modalityTag === 'HÍBRIDO' && <FaVideo className="me-1" />}
+                        {event.modalityTag === 'PRESENCIAL' && <FaMapMarkerAlt className="me-1" />}
+                        {event.modalityTag}
+                      </span>
+
+                      <div className="card-poster-overlay">
+                        <span className="btn-quick-buy">
+                          Comprar Ticket <FaChevronRight className="ms-1 fs-7" />
+                        </span>
                       </div>
-                      
-                      <div className="card-info-item small text-light-50 mb-3">
-                        <FaMapMarkerAlt className="me-2 text-danger" />
-                        <span className="text-truncate">{event.location}</span>
+                    </div>
+
+                    <Card.Body className="p-3 d-flex flex-column justify-content-between">
+                      <div>
+                        <div className="card-location-row mb-1">
+                          <FaMapMarkerAlt className="location-icon" />
+                          <span className="location-text">{event.location}</span>
+                        </div>
+
+                        <h3 className="event-passline-title mb-3" title={event.title}>
+                          {event.title}
+                        </h3>
                       </div>
 
-                      <Button 
-                        variant="danger" 
-                        className="w-100 fw-bold btn-buy mt-auto"
-                        onClick={() => handleBuy(event.id)}
-                      >
-                        Comprar Entrada
-                      </Button>
+                      <div className="event-date-footer">
+                        <div className="date-block">
+                          <span className="day-number">{event.dayNum}</span>
+                          <div className="month-year-group">
+                            <span className="month-text">{event.monthShort}</span>
+                            <span className="year-text">{event.yearNum}</span>
+                          </div>
+                        </div>
+
+                        <div className="time-divider" />
+
+                        <div className="time-block">
+                          <span className="time-number">{event.timeStr}</span>
+                          <span className="time-unit">hrs</span>
+                        </div>
+                      </div>
                     </Card.Body>
                   </Card>
                 </Col>
               ))}
             </Row>
           ) : (
-            <div className="empty-results text-center py-5">
-              <p className="text-muted fs-5">No se encontraron eventos que coincidan con tu búsqueda.</p>
+            <div className="empty-state-glass text-center p-5 mx-auto mt-4" style={{ maxWidth: '600px' }}>
+              <FaTv className="fs-1 text-purple mb-3 opacity-50" />
+              <h4 className="text-white fw-semibold">No encontramos eventos</h4>
+              <p className="text-muted mb-0">Probá ajustando la búsqueda o el filtro de modalidad seleccionada.</p>
             </div>
           )}
         </Container>

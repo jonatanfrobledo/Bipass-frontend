@@ -9,17 +9,11 @@ import {
   FaPlus, 
   FaMinus,
   FaClock,
-  FaExclamationTriangle,
   FaArrowRight
 } from "react-icons/fa";
 import { getEventById, getTicketTypesByEvent, createPaymentPreference } from "../../services/apiService";
 import MercadoPagoStep from "./MercadoPagoStep";
 import "./Checkout.css";
-
-const TICKETS_FALLBACK = [
-  { id: 1, name: "Entrada General", price: 12000, quantityAvailable: 50 },
-  { id: 2, name: "Streaming", price: 5000, quantityAvailable: 20 }
-];
 
 const TEN_MINUTES_IN_SECONDS = 10 * 60;
 
@@ -27,154 +21,216 @@ const Checkout = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [step, setStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(1);
   const [eventData, setEventData] = useState(null);
   const [ticketTypes, setTicketTypes] = useState([]);
-  const [quantities, setQuantities] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
+  const [selectedQuantities, setSelectedQuantities] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [preferenceId, setPreferenceId] = useState(null);
 
-  
   const [timeLeft, setTimeLeft] = useState(TEN_MINUTES_IN_SECONDS);
   const [isExpired, setIsExpired] = useState(false);
 
   useEffect(() => {
-    if (loading || isExpired) return;
+    if (isLoading || isExpired) return;
 
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
+    const countdownTimer = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(countdownTimer);
           setIsExpired(true);
-          setError("El tiempo para completar la compra ha expirado.");
+          setErrorMessage("El tiempo para completar la compra ha expirado.");
           return 0;
         }
-        return prev - 1;
+        return prevTime - 1;
       });
     }, 1000);
 
-    return () => clearInterval(timer);
-  }, [loading, isExpired]);
+    return () => clearInterval(countdownTimer);
+  }, [isLoading, isExpired]);
 
-  const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  const formatTimerDisplay = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
-  const parsePrice = (price) => {
-    if (typeof price === 'number') return price;
-    if (!price) return 0;
-    const cleanStr = String(price).replace(/[^0-9.-]+/g, "");
-    return parseFloat(cleanStr) || 0;
+  const parseItemPrice = (priceValue) => {
+    if (typeof priceValue === 'number') return priceValue;
+    if (!priceValue) return 0;
+    const sanitizedString = String(priceValue).replace(/[^0-9.-]+/g, "");
+    return parseFloat(sanitizedString) || 0;
   };
 
   useEffect(() => {
-    let isMounted = true;
-    const fetchData = async () => {
+    let isComponentMounted = true;
+
+    const fetchCheckoutData = async () => {
       try {
-        setLoading(true);
-        let eventRes = null;
+        setIsLoading(true);
+        setErrorMessage("");
+
+        let rawEvent = null;
         try {
-          const rawRes = await getEventById(id);
-          eventRes = rawRes?.data || rawRes;
-        } catch (apiErr) {
-          console.warn("Error cargando evento:", apiErr.message);
+          const response = await getEventById(id);
+          rawEvent = response?.data || response?.result || response;
+        } catch (apiError) {
+          console.warn("No se pudo cargar el evento del backend:", apiError.message);
         }
 
-        if (!isMounted) return;
+        if (!isComponentMounted) return;
 
-        setEventData(eventRes || {
-          title: "Evento Seleccionado",
-          date: new Date().toISOString(),
-          location: "Rosario, Santa Fe",
-          imageUrl: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop"
-        });
-
-        let ticketsRes = [];
-        try {
-          const rawTickets = await getTicketTypesByEvent(id);
-          ticketsRes = Array.isArray(rawTickets) ? rawTickets : (rawTickets?.items || rawTickets?.data || []);
-        } catch (tErr) {
-          console.warn("Error cargando entradas desde backend:", tErr.message);
+        if (rawEvent && typeof rawEvent === 'object') {
+          setEventData({
+            id: rawEvent.id || rawEvent.Id || id,
+            title: rawEvent.title || rawEvent.Title || rawEvent.name || rawEvent.Name || "Evento Seleccionado",
+            description: rawEvent.description || rawEvent.Description || "Sin descripción disponible.",
+            date: rawEvent.date || rawEvent.Date || rawEvent.dateTime || rawEvent.DateTime || new Date().toISOString(),
+            location: rawEvent.location || rawEvent.Location || rawEvent.venueName || rawEvent.venue?.name || "Rosario, Santa Fe",
+            imageUrl: rawEvent.imageUrl || rawEvent.ImageUrl || rawEvent.image || rawEvent.Image || "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop",
+            price: rawEvent.price || rawEvent.Price || 0
+          });
+        } else {
+          setEventData({
+            id: id,
+            title: "Evento #" + id,
+            date: new Date().toISOString(),
+            location: "Rosario, Santa Fe",
+            imageUrl: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop"
+          });
         }
 
-    
-        const finalTickets = (ticketsRes && ticketsRes.length > 0) 
-          ? ticketsRes.map(t => ({
-              id: t.id ?? t.Id ?? t.ticketTypeId,
-              name: t.name ?? t.Name ?? "Entrada",
-              price: t.price ?? t.Price ?? 0,
-              quantityAvailable: t.quantityAvailable ?? t.QuantityAvailable ?? t.stock ?? t.Stock ?? 50
-            }))
-          : TICKETS_FALLBACK;
+        let rawTickets = [];
+        try {
+          const ticketResponse = await getTicketTypesByEvent(id);
+          rawTickets = Array.isArray(ticketResponse) ? ticketResponse : (ticketResponse?.items || ticketResponse?.data || ticketResponse?.result || []);
+        } catch (ticketError) {
+          console.warn("No se pudieron cargar las entradas desde el backend:", ticketError.message);
+        }
 
-        setTicketTypes(finalTickets);
-        const initialQty = {};
-        finalTickets.forEach(t => { initialQty[t.id] = 0; });
-        setQuantities(initialQty);
+        let finalTicketsList = [];
+        if (rawTickets && rawTickets.length > 0) {
+          finalTicketsList = rawTickets.map((ticket, index) => ({
+            id: ticket.id ?? ticket.Id ?? ticket.ticketTypeId ?? index + 1,
+            name: ticket.name ?? ticket.Name ?? ticket.title ?? ticket.Title ?? "Entrada General",
+            price: ticket.price ?? ticket.Price ?? rawEvent?.price ?? rawEvent?.Price ?? 12000,
+            quantityAvailable: ticket.quantityAvailable ?? ticket.QuantityAvailable ?? ticket.stock ?? ticket.Stock ?? 50
+          }));
+        } else {
+          const baseEventPrice = rawEvent?.price ?? rawEvent?.Price ?? 12000;
+          finalTicketsList = [
+            { id: 1, name: "Entrada General", price: baseEventPrice, quantityAvailable: 50 },
+            { id: 2, name: "Pase VIP", price: baseEventPrice * 1.5, quantityAvailable: 20 }
+          ];
+        }
+
+        setTicketTypes(finalTicketsList);
+
+        const initialQuantitiesMap = {};
+        finalTicketsList.forEach(ticket => { initialQuantitiesMap[ticket.id] = 0; });
+        setSelectedQuantities(initialQuantitiesMap);
 
       } catch (err) {
-        if (isMounted) setError("Error al preparar la compra.");
+        if (isComponentMounted) setErrorMessage("Error al preparar la compra: " + err.message);
       } finally {
-        if (isMounted) setLoading(false);
+        if (isComponentMounted) setIsLoading(false);
       }
     };
 
-    if (id) fetchData();
-    return () => { isMounted = false; };
+    if (id) fetchCheckoutData();
+    return () => { isComponentMounted = false; };
   }, [id]);
 
-  const handleIncrement = (ticketId, maxQty) => {
+  const handleQuantityIncrement = (ticketId, maxStockQuantity) => {
     if (isExpired) return;
-    setQuantities(prev => ({ ...prev, [ticketId]: Math.min((prev[ticketId] || 0) + 1, maxQty) }));
+    setSelectedQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [ticketId]: Math.min((prevQuantities[ticketId] || 0) + 1, maxStockQuantity)
+    }));
   };
 
-  const handleDecrement = (ticketId) => {
+  const handleQuantityDecrement = (ticketId) => {
     if (isExpired) return;
-    setQuantities(prev => ({ ...prev, [ticketId]: Math.max((prev[ticketId] || 0) - 1, 0) }));
+    setSelectedQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [ticketId]: Math.max((prevQuantities[ticketId] || 0) - 1, 0)
+    }));
   };
 
-  const calculateTotal = () => {
-    return ticketTypes.reduce((sum, t) => sum + (parsePrice(t.price) * (quantities[t.id] || 0)), 0);
+  const calculateGrandTotal = () => {
+    return ticketTypes.reduce((accumulator, ticket) => {
+      const ticketQuantity = selectedQuantities[ticket.id] || 0;
+      return accumulator + (parseItemPrice(ticket.price) * ticketQuantity);
+    }, 0);
   };
 
   const handleProceedToPayment = async () => {
     if (isExpired) return;
-    setError("");
+    setErrorMessage("");
 
-    const selectedItems = ticketTypes
-      .filter(t => (quantities[t.id] || 0) > 0)
-      .map(t => ({
-        ticketTypeId: Number(t.id), 
-        quantity: quantities[t.id],
-        unitPrice: parsePrice(t.price)
+    const selectedItemsArray = ticketTypes
+      .filter(ticket => (selectedQuantities[ticket.id] || 0) > 0)
+      .map(ticket => ({
+        ticketTypeId: Number(ticket.id), 
+        quantity: selectedQuantities[ticket.id],
+        unitPrice: parseItemPrice(ticket.price),
+        ticketTypeName: ticket.name
       }));
 
-    if (selectedItems.length === 0) {
-      setError("Debes seleccionar al menos una entrada.");
+    if (selectedItemsArray.length === 0) {
+      setErrorMessage("Debes seleccionar al menos una entrada.");
       return;
     }
 
     try {
-      setSubmitting(true);
-      const res = await createPaymentPreference({
-        totalAmount: calculateTotal(),
-        items: selectedItems
-      });
+      setIsSubmitting(true);
+      
+      const payload = {
+        totalAmount: calculateGrandTotal(),
+        items: selectedItemsArray
+      };
 
-      setPreferenceId(res.preferenceId);
-      setStep(2);
+      const response = await createPaymentPreference(payload);
+
+      const generatedPreferenceId = response.preferenceId || response.PreferenceId || response.id;
+      const generatedOrderId = response.orderId || response.OrderId;
+
+      if (!generatedPreferenceId) {
+        throw new Error("No se pudo obtener el ID de preferencia de pago del servidor.");
+      }
+
+      if (generatedOrderId) {
+        sessionStorage.setItem('current_order_id', generatedOrderId);
+
+        const purchaseInfo = {
+          title: eventData?.title || "Evento BIPASS",
+          date: eventData?.date ? eventData.date.split("T")[0] : new Date().toISOString().split("T")[0],
+          location: eventData?.location || "Rosario, Santa Fe",
+          total: calculateGrandTotal(),
+          items: selectedItemsArray
+        };
+        sessionStorage.setItem(`order_event_${generatedOrderId}`, JSON.stringify(purchaseInfo));
+      }
+
+      setPreferenceId(generatedPreferenceId);
+      setCurrentStep(2);
     } catch (err) {
-      setError(err.message || "Error al conectar con Mercado Pago.");
+      setErrorMessage(err.message || "Error al conectar con Mercado Pago.");
     } finally {
-      setSubmitting(false);
+      setIsSubmitting(false);
     }
   };
 
-  if (loading) return <div className="checkout-loading"><div className="spinner"></div><p>Cargando checkout...</p></div>;
+  if (isLoading) {
+    return (
+      <div className="checkout-loading">
+        <div className="spinner"></div>
+        <p>Cargando checkout...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="checkout-container">
@@ -185,36 +241,47 @@ const Checkout = () => {
 
         <h1 className="checkout-title">Finalizar Compra</h1>
 
-      
         <div className={`checkout-timer-banner ${timeLeft < 120 ? 'timer-warning' : ''} ${isExpired ? 'timer-expired' : ''}`}>
           <div className="timer-info">
             <FaClock className="timer-icon" />
             <span>{isExpired ? "El tiempo ha expirado." : "Tiempo restante para comprar:"}</span>
           </div>
-          <div className="timer-clock">{formatTime(timeLeft)}</div>
+          <div className="timer-clock">{formatTimerDisplay(timeLeft)}</div>
         </div>
 
-        {error && <div className="checkout-error-banner">{error}</div>}
+        {errorMessage && <div className="checkout-error-banner">{errorMessage}</div>}
 
-        {step === 1 ? (
+        {currentStep === 1 ? (
           <div className="checkout-grid">
             <div className="checkout-left">
               <div className="checkout-card">
                 <h2><FaTicketAlt /> Selección de Entradas</h2>
                 <div className="tickets-list">
                   {ticketTypes.map((ticket) => {
-                    const qty = quantities[ticket.id] || 0;
+                    const quantity = selectedQuantities[ticket.id] || 0;
                     return (
                       <div key={ticket.id} className="ticket-item">
                         <div className="ticket-info">
                           <h3>{ticket.name}</h3>
                           <p>Disponibles: {ticket.quantityAvailable}</p>
-                          <div className="ticket-price">${parsePrice(ticket.price).toLocaleString('es-AR')} ARS</div>
+                          <div className="ticket-price">${parseItemPrice(ticket.price).toLocaleString('es-AR')} ARS</div>
                         </div>
                         <div className="quantity-control">
-                          <button className="quantity-btn" onClick={() => handleDecrement(ticket.id)} disabled={qty <= 0 || isExpired}><FaMinus /></button>
-                          <span className="quantity-display">{qty}</span>
-                          <button className="quantity-btn" onClick={() => handleIncrement(ticket.id, ticket.quantityAvailable)} disabled={qty >= ticket.quantityAvailable || isExpired}><FaPlus /></button>
+                          <button 
+                            className="quantity-btn" 
+                            onClick={() => handleQuantityDecrement(ticket.id)} 
+                            disabled={quantity <= 0 || isExpired}
+                          >
+                            <FaMinus />
+                          </button>
+                          <span className="quantity-display">{quantity}</span>
+                          <button 
+                            className="quantity-btn" 
+                            onClick={() => handleQuantityIncrement(ticket.id, ticket.quantityAvailable)} 
+                            disabled={quantity >= ticket.quantityAvailable || isExpired}
+                          >
+                            <FaPlus />
+                          </button>
                         </div>
                       </div>
                     );
@@ -225,22 +292,49 @@ const Checkout = () => {
 
             <div className="checkout-right">
               <div className="summary-card">
+                {eventData && (
+                  <div className="event-preview">
+                    <img 
+                      src={eventData.imageUrl} 
+                      alt={eventData.title} 
+                      className="event-image"
+                    />
+                    <div className="event-details">
+                      <h3>{eventData.title}</h3>
+                      <div className="event-meta">
+                        <span>
+                          <FaCalendarAlt className="text-warning" /> 
+                          {eventData.date ? eventData.date.split("T")[0] : "Fecha a confirmar"}
+                        </span>
+                        <span>
+                          <FaMapMarkerAlt className="text-danger" /> 
+                          {eventData.location}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <h3>Resumen de Compra</h3>
                 <div className="summary-breakdown">
-                  {ticketTypes.filter(t => (quantities[t.id] || 0) > 0).map(t => (
-                    <div key={t.id} className="summary-row">
-                      <span>{quantities[t.id]}x {t.name}</span>
-                      <span>${(parsePrice(t.price) * quantities[t.id]).toLocaleString('es-AR')} ARS</span>
+                  {ticketTypes.filter(ticket => (selectedQuantities[ticket.id] || 0) > 0).map(ticket => (
+                    <div key={ticket.id} className="summary-row">
+                      <span>{selectedQuantities[ticket.id]}x {ticket.name}</span>
+                      <span>${(parseItemPrice(ticket.price) * selectedQuantities[ticket.id]).toLocaleString('es-AR')} ARS</span>
                     </div>
                   ))}
                   <div className="summary-row total">
                     <span>Total:</span>
-                    <span className="total-amount">${calculateTotal().toLocaleString('es-AR')} ARS</span>
+                    <span className="total-amount">${calculateGrandTotal().toLocaleString('es-AR')} ARS</span>
                   </div>
                 </div>
 
-                <button className="pay-btn" onClick={handleProceedToPayment} disabled={submitting || calculateTotal() === 0 || isExpired}>
-                  <FaShoppingCart /> {submitting ? "Generando Pago..." : "Ir a Pagar"} <FaArrowRight />
+                <button 
+                  className="pay-btn" 
+                  onClick={handleProceedToPayment} 
+                  disabled={isSubmitting || calculateGrandTotal() === 0 || isExpired}
+                >
+                  <FaShoppingCart /> {isSubmitting ? "Generando Pago..." : "Ir a Pagar"} <FaArrowRight />
                 </button>
               </div>
             </div>
@@ -248,8 +342,9 @@ const Checkout = () => {
         ) : (
           <MercadoPagoStep 
             preferenceId={preferenceId} 
-            totalAmount={calculateTotal()} 
-            onBack={() => setStep(1)} 
+            totalAmount={calculateGrandTotal()} 
+            eventData={eventData}
+            onBack={() => setCurrentStep(1)} 
           />
         )}
       </div>

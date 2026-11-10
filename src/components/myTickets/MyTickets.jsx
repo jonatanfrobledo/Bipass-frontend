@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, InputGroup, Form, Modal } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Container, Row, Col, Card, Button, InputGroup, Form, Modal, Alert } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import { 
   FaTicketAlt, 
   FaInfoCircle, 
@@ -9,43 +10,12 @@ import {
   FaSearch, 
   FaCalendarAlt, 
   FaMapMarkerAlt, 
-  FaChair 
+  FaChair,
+  FaCheckCircle
 } from 'react-icons/fa';
 import { BsQrCodeScan } from 'react-icons/bs';
+import { getMyOrders } from '../../services/apiService';
 import './MyTickets.css';
-
-const MOCK_TICKETS = [
-  {
-    id: 1,
-    event: 'International Music Festival',
-    date: 'October 15, 2025',
-    location: 'Parque Independencia, Rosario',
-    seat: 'PLATEA A - Fila 3 - Butaca 12',
-    price: 4500,
-    qr_code_url: 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Ticket1',
-    pdf_url: '#'
-  },
-  {
-    id: 2,
-    event: 'Rock Legends Concert',
-    date: 'October 22, 2025',
-    location: 'Metropolitano, Rosario',
-    seat: 'VIP - Fila 1 - Butaca 5',
-    price: 5500,
-    qr_code_url: 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Ticket2',
-    pdf_url: '#'
-  },
-  {
-    id: 3,
-    event: 'Stand-Up Comedy Night',
-    date: 'November 5, 2025',
-    location: 'Teatro El Círculo, Rosario',
-    seat: 'PLATEA B - Fila 5 - Butaca 20',
-    price: 3200,
-    qr_code_url: 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Ticket3',
-    pdf_url: '#'
-  }
-];
 
 const MyTickets = () => {
   const [tickets, setTickets] = useState([]);
@@ -53,14 +23,107 @@ const MyTickets = () => {
   const [loading, setLoading] = useState(true);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setTickets(MOCK_TICKETS);
-      setLoading(false);
-    }, 800);
-    return () => clearTimeout(timer);
-  }, []);
+    const fetchUserTickets = async () => {
+      try {
+        setLoading(true);
+
+        const queryParams = new URLSearchParams(location.search);
+        const paymentStatus = queryParams.get('status') || queryParams.get('collection_status');
+
+        if (paymentStatus === 'approved') {
+          setShowSuccessAlert(true);
+        }
+
+        const response = await getMyOrders();
+        const rawOrders = Array.isArray(response) ? response : (response?.data || response?.result || []);
+
+        const formattedTickets = rawOrders.map((order, index) => {
+          const orderId = order.id || order.Id || index + 1;
+          const orderStatus = String(order.status || order.Status || 'Pending').toLowerCase();
+
+          let orderEventInfo = null;
+          try {
+            const storedSpecific = sessionStorage.getItem(`order_event_${orderId}`);
+            if (storedSpecific) {
+              orderEventInfo = JSON.parse(storedSpecific);
+            } else {
+              const storedGeneral = sessionStorage.getItem('last_purchased_event');
+              if (storedGeneral) orderEventInfo = JSON.parse(storedGeneral);
+            }
+          } catch (e) {
+            console.warn("Storage warning:", e);
+          }
+
+          const itemsList = order.items || order.OrderItems || order.orderItems || [];
+          
+          const seatDescription = itemsList.length > 0 
+            ? itemsList.map(i => {
+                const qty = i.quantity || i.Quantity || 1;
+                const tName = i.ticketTypeName || i.TicketTypeName || i.ticketType?.name || i.TicketType?.Name || 'Entrada General';
+                return `${qty}x ${tName}`;
+              }).join(', ') 
+            : "GENERAL / DIGITAL PASS";
+
+          const eventTitle = 
+            order.eventTitle || 
+            order.EventTitle || 
+            order.event?.title || 
+            order.Event?.Title || 
+            order.event?.name || 
+            order.Event?.Name || 
+            orderEventInfo?.title || 
+            `Evento #${orderId}`;
+
+          const eventLocation = 
+            order.location || 
+            order.Location || 
+            order.event?.location || 
+            order.Event?.Location || 
+            orderEventInfo?.location || 
+            "Rosario, Santa Fe";
+
+          const rawDate = order.date || order.Date || order.orderDate || order.OrderDate;
+          const eventDate = rawDate ? rawDate.split("T")[0] : (orderEventInfo?.date || new Date().toISOString().split("T")[0]);
+
+          const totalPrice = order.totalAmount || order.TotalAmount || order.total || order.Total || orderEventInfo?.total || 12000;
+
+          return {
+            id: orderId,
+            event: eventTitle,
+            date: eventDate,
+            location: eventLocation,
+            seat: seatDescription,
+            price: totalPrice,
+            status: orderStatus,
+            qr_code_url: `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BIPASS-ORDER-${orderId}`,
+            pdf_url: "#"
+          };
+        });
+
+        const approvedTickets = formattedTickets.filter(t => 
+          t.status === 'approved' || 
+          t.status === 'aprobada' || 
+          t.status === 'completed' || 
+          t.status === 'paid' ||
+          t.status === '1' ||
+          t.status === '2'
+        );
+
+        setTickets(approvedTickets);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        setTickets([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserTickets();
+  }, [location]);
 
   const handleOpenModal = (ticket) => {
     setSelectedTicket(ticket);
@@ -74,19 +137,19 @@ const MyTickets = () => {
 
   const filteredTickets = tickets.filter(
     t =>
-      t.event.toLowerCase().includes(search.toLowerCase()) ||
-      t.location.toLowerCase().includes(search.toLowerCase())
+      (t.event && t.event.toLowerCase().includes(search.toLowerCase())) ||
+      (t.location && t.location.toLowerCase().includes(search.toLowerCase()))
   );
 
   if (loading) {
     return (
       <div className="mytickets-loading-screen">
         <div className="loading-card text-center p-5">
-          <div className="spinner-border text-purple mb-3" role="status" style={{ width: '3rem', height: '3rem' }}>
+          <div className="spinner-border text-danger mb-3" role="status" style={{ width: '3rem', height: '3rem' }}>
             <span className="visually-hidden">Cargando...</span>
           </div>
           <h4 className="text-white fw-semibold">Cargando tus entradas...</h4>
-          <p className="text-muted mb-0">Recuperando tu pase digital</p>
+          <p className="text-muted mb-0">Verificando bases de datos de pago</p>
         </div>
       </div>
     );
@@ -95,13 +158,25 @@ const MyTickets = () => {
   return (
     <div className="mytickets-wrapper">
       <Container className="py-5">
+        
+        {showSuccessAlert && (
+          <Alert variant="success" className="d-flex align-items-center gap-3 mb-4 shadow-sm border-0 alert-success-glass" onClose={() => setShowSuccessAlert(false)} dismissible>
+            <FaCheckCircle size={28} className="text-success flex-shrink-0" />
+            <div>
+              <Alert.Heading className="fw-bold mb-1 fs-5">¡Pago aprobado con éxito!</Alert.Heading>
+              <p className="mb-0 text-muted">La transacción fue verificada en el sistema. Tu entrada ya se encuentra disponible.</p>
+            </div>
+          </Alert>
+        )}
+
         <div className="text-center mb-5">
           <span className="tickets-badge">ACCESO DIGITAL</span>
           <h1 className="mytickets-title mt-2">
             Mis <span className="highlight-text">e-Tickets</span>
           </h1>
-          <p className="mytickets-subtitle">Aquí puedes consultar, descargar y gestionar tus entradas adquiridas</p>
+          <p className="mytickets-subtitle">Entradas verificadas y acreditadas por tu cuenta</p>
         </div>
+
         <div className="mytickets-search-container mb-5">
           <InputGroup className="custom-input-group mx-auto" style={{ maxWidth: '580px' }}>
             <InputGroup.Text className="input-icon-bg">
@@ -122,7 +197,6 @@ const MyTickets = () => {
             {filteredTickets.map(ticket => (
               <Col key={ticket.id}>
                 <Card className="ticket-card-v2 h-100 border-0">
-                  
                   <div className="ticket-stub-header">
                     <div className="d-flex align-items-center gap-2">
                       <FaTicketAlt className="ticket-stub-icon" />
@@ -152,13 +226,12 @@ const MyTickets = () => {
                     <div className="pt-3 border-top border-secondary-subtle d-flex justify-content-between align-items-center mt-auto">
                       <div>
                         <span className="price-label d-block text-muted">Precio</span>
-                        <span className="price-value">${ticket.price.toLocaleString()}</span>
+                        <span className="price-value">${Number(ticket.price || 0).toLocaleString('es-AR')}</span>
                       </div>
                       <Button className="btn-ticket-action" onClick={() => handleOpenModal(ticket)}>
                         <BsQrCodeScan className="me-2" /> Ver ticket
                       </Button>
                     </div>
-
                   </Card.Body>
                 </Card>
               </Col>
@@ -166,9 +239,9 @@ const MyTickets = () => {
           </Row>
         ) : (
           <div className="empty-tickets-glass text-center p-5 mx-auto" style={{ maxWidth: '600px' }}>
-            <FaInfoCircle className="fs-1 text-purple mb-3" />
-            <h4 className="text-white fw-semibold">No se encontraron tickets</h4>
-            <p className="text-muted mb-0">No tienes entradas adquiridas que coincidan con tu búsqueda.</p>
+            <FaInfoCircle className="fs-1 text-danger mb-3" />
+            <h4 className="text-white fw-semibold">No se encontraron tickets acreditados</h4>
+            <p className="text-muted mb-0">No posees entradas con pagos aprobados en este momento.</p>
           </div>
         )}
 
@@ -187,7 +260,6 @@ const MyTickets = () => {
               </Modal.Header>
 
               <Modal.Body className="p-4 text-center">
-
                 <div className="qr-box-container mb-4">
                   <div className="qr-wrapper">
                     <img src={selectedTicket.qr_code_url} alt="Código QR" className="qr-image" />
@@ -215,7 +287,7 @@ const MyTickets = () => {
                   <div className="modal-detail-row">
                     <FaChair className="row-icon" />
                     <div>
-                      <small className="d-block text-muted">Asiento / Zona</small>
+                      <small className="d-block text-muted">Zona / Tipo</small>
                       <strong className="text-white">{selectedTicket.seat}</strong>
                     </div>
                   </div>
@@ -225,17 +297,16 @@ const MyTickets = () => {
                   <Button 
                     variant="success" 
                     className="btn-modal-action btn-download-pdf" 
-                    href={selectedTicket.pdf_url} 
+                    href={selectedTicket.pdf_url || '#'} 
                     target="_blank"
                   >
                     <FaDownload className="me-2" /> Descargar PDF
                   </Button>
 
                   <Button variant="outline-light" className="btn-modal-action btn-resend-email">
-                    <FaEnvelope className="me-2" /> Reenviar Email
+                    <FaEnvelope className="me-2" /> Enviar a Email
                   </Button>
                 </div>
-
               </Modal.Body>
 
               <Modal.Footer className="border-0 pt-0 justify-content-center pb-4">
@@ -246,7 +317,6 @@ const MyTickets = () => {
             </>
           )}
         </Modal>
-
       </Container>
     </div>
   );

@@ -47,12 +47,16 @@ const Login = ({ onLogin }) => {
         try {
             setLoading(true);
             if (onLogin) {
-                await onLogin(email, password);
+                await onLogin({ 
+                    email: email.trim(),
+                    password: password 
+                    }
+                );
             }
             navigate(from, { replace: true });
         } catch (err) {
             console.error("Error al autenticar:", err);
-            const msg = err?.response?.data?.message || err?.message || "Credenciales incorrectas o servidor no disponible.";
+            const msg = err.message || "Credenciales incorrectas o servidor no disponible.";
             setErrorMessage(msg);
         } finally {
             setLoading(false);
@@ -139,34 +143,6 @@ const Login = ({ onLogin }) => {
                             <p className="mb-0 login-link-text">
                                 ¿No tienes una cuenta? <Link to="/register" className="neon-link">Regístrate</Link>
                             </p>
-                        </div>
-
-                        <hr className="login-divider" />
-
-                        <div className="text-center mt-3">
-                            <p className="login-subtitle mb-2">Descarga la aplicación</p>
-                            <div className="d-flex justify-content-center gap-2">
-                                <Button
-                                    as="a"
-                                    href="#"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    size="sm"
-                                    className="btn-app-download rounded-pill d-flex align-items-center gap-1 px-3"
-                                >
-                                    <i className="bi bi-google-play"></i> Android
-                                </Button>
-                                <Button
-                                    as="a"
-                                    href="#"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    size="sm"
-                                    className="btn-app-download rounded-pill d-flex align-items-center gap-1 px-3"
-                                >
-                                    <i className="bi bi-apple"></i> iOS
-                                </Button>
-                            </div>
                         </div>
                     </Card.Body>
                 </Card>

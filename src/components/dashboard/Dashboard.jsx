@@ -97,7 +97,7 @@ const Dashboard = ({ userName }) => {
 
     const configEntrada = ENTRADAS_PERMITIDAS.find(p => p.nombre === tipoClean);
 
-    if (!configEntrada) return null; // Si no es una de las 5, se descarta
+    if (!configEntrada) return null;
 
     return {
       id: item.id || item.Id || `ticket-${index}`,
@@ -106,7 +106,7 @@ const Dashboard = ({ userName }) => {
       descripcion: item.descripcion || item.description || item.Description || 'Sin descripción',
       cantidad: Number(item.cantidad ?? item.quantity ?? item.Quantity ?? 0),
       precio: parsePrice(item.precio ?? item.price ?? item.Price),
-      color: configEntrada.color, // Color asignado según el tipo comercial
+      color: configEntrada.color,
     };
   };
 
@@ -121,7 +121,7 @@ const Dashboard = ({ userName }) => {
       if (isMounted.current) {
         const listaFiltrada = listaOriginal
           .map((item, index) => normalizarEntrada(item, index))
-          .filter(Boolean); // Elimina los nulos
+          .filter(Boolean);
 
         if (listaFiltrada.length > 0) {
           setEntradas(listaFiltrada);
@@ -210,26 +210,24 @@ const Dashboard = ({ userName }) => {
   return (
     <div className="dashboard-wrapper">
       
-
       <section className="dashboard-hero-container mb-5">
         <video src="/gifs/Dashboard.mp4" autoPlay muted loop className="hero-video-bg" />
         <div className="hero-overlay">
-          <div className="hero-content text-center">
+          <div className="hero-content text-center container">
             <div className="hero-badge-container mb-2">
-              <span className="hero-badge">PLATAFORMA DE EVENTOS HÍBRIDA</span>
+              <span className="hero-badge">PLATAFORMA DE EVENTOS</span>
             </div>
             <h1 className="welcome-title">
               BIPASS {userName ? <span className="highlight-text">{userName.toUpperCase()}</span> : ''}
             </h1>
-            <p className="welcome-subtitle">
-              Viví los eventos como quieras: <strong>Presencial</strong> o <strong>Streaming</strong>
+            <p className="welcome-subtitle">Disfrutalos de forma <strong>Presencial</strong> o mediante <strong>Streaming</strong>
             </p>
             <div className="hero-cta-group mt-4 d-flex justify-content-center gap-3 flex-wrap">
               <a href="#catalogo" className="btn btn-primary btn-hero-cta">
-                Tipos De Entradas Disponibles
+                Ver Catálogo de Entradas
               </a>
-              <a href="#como-funciona" className="btn btn-outline-light btn-hero-secondary">
-                ¿Cómo funciona?
+              <a href="#modalidades" className="btn btn-outline-light btn-hero-secondary">
+                Conocer Modalidades
               </a>
             </div>
           </div>
@@ -238,43 +236,67 @@ const Dashboard = ({ userName }) => {
 
       <Container className="dashboard-content pb-5">
 
-        <section id="como-funciona" className="modalities-section mb-5">
-          <div className="text-center mb-4">
-            <span className="text-purple-accent text-uppercase fw-bold tracking-wider">Dos Formas de Disfrutar</span>
-            <h2 className="section-main-heading text-white mt-1">Elegí tu modalidad de acceso</h2>
-            <p className="text-muted">Flexibilidad total adaptada a tus planes</p>
+        <section id="modalidades" className="modalities-section mb-5">
+          <div className="text-center mb-5">
+            <span className="text-purple-accent text-uppercase fw-bold tracking-wider">Acceso Total Sin Exclusiones</span>
+            <h2 className="section-main-heading text-white mt-1">Elegí cómo querés vivir cada experiencia</h2>
           </div>
 
-          <Row className="g-4">
-            <Col xs={12} md={6}>
-              <div className="modality-card glass-card h-100 p-4">
-                <div className="modality-icon-wrapper mb-3 text-purple">
-                  <BsTicketFill size={38} />
+          <Row className="g-4 align-items-stretch">
+            <Col xs={12} lg={6}>
+              <div className="modality-card glass-card h-100 p-4 p-md-5 d-flex flex-column justify-content-between">
+                <div>
+                  <div className="d-flex align-items-center gap-3 mb-4">
+                    <div className="modality-icon-wrapper text-purple">
+                      <BsTicketFill size={36} />
+                    </div>
+                    <div>
+                      <span className="badge bg-purple-glow text-purple mb-1">EXPERIENCIA FÍSICA</span>
+                      <h3 className="text-white h3 fw-bold mb-0">Entradas Presenciales</h3>
+                    </div>
+                  </div>
+
+                  <p className="text-muted mb-4 fs-6">
+                    Sentí la energía vibrante del público y la cercanía con tus artistas favoritos en las mejores locaciones con acceso seguro mediante código QR.
+                  </p>
                 </div>
-                <h3 className="text-white h4 fw-semibold mb-2">Entradas Presenciales</h3>
-                <p className="text-muted">
-                  Acceso directo a las instalaciones del evento. Elegí entre ubicaciones <strong>General</strong>, <strong>VIP</strong> o <strong>Backstage</strong> según la experiencia que busques.
-                </p>
-                <ul className="modality-features-list list-unstyled mt-3 mb-0 text-white-50">
-                  <li><BsCheckCircleFill className="text-purple me-2" /> Entradas 100% digitales con QR seguro.</li>
-                  <li><BsCheckCircleFill className="text-purple me-2" /> Opciones con beneficios exclusivos en recinto.</li>
-                </ul>
+
+                <div className="ticket-tiers-box p-3 rounded" style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                  <span className="text-white small d-block mb-2 text-uppercase fw-bold tracking-wider"></span>
+                  <div className="d-flex gap-2 flex-wrap">
+                    <span className="badge px-3 py-2 fs-6" style={{ background: 'rgba(124, 58, 237, 0.25)', color: '#c4b5fd', border: '1px solid #7c3aed' }}>GENERAL</span>
+                    <span className="badge px-3 py-2 fs-6" style={{ background: 'rgba(167, 139, 250, 0.25)', color: '#ddd6fe', border: '1px solid #a78bfa' }}>VIP</span>
+                    <span className="badge px-3 py-2 fs-6" style={{ background: 'rgba(245, 158, 11, 0.25)', color: '#fde68a', border: '1px solid #f59e0b' }}>BACKSTAGE</span>
+                  </div>
+                </div>
               </div>
             </Col>
 
-            <Col xs={12} md={6}>
-              <div className="modality-card glass-card h-100 p-4">
-                <div className="modality-icon-wrapper mb-3 text-cyan">
-                  <BsTvFill size={38} />
+            <Col xs={12} lg={6}>
+              <div className="modality-card glass-card h-100 p-4 p-md-5 d-flex flex-column justify-content-between" style={{ borderColor: 'rgba(6, 182, 212, 0.3)' }}>
+                <div>
+                  <div className="d-flex align-items-center gap-3 mb-4">
+                    <div className="modality-icon-wrapper text-cyan">
+                      <BsTvFill size={36} />
+                    </div>
+                    <div>
+                      <span className="badge bg-cyan-glow text-cyan mb-1">EXPERIENCIA VIRTUAL</span>
+                      <h3 className="text-white h3 fw-bold mb-0">Streaming</h3>
+                    </div>
+                  </div>
+
+                  <p className="text-muted mb-4 fs-6">
+                    Ideal para personas con movilidad reducida o quienes prefieren evitar aglomeraciones masivas. Disfrutá el show en HD desde la comodidad de tu hogar.
+                  </p>
                 </div>
-                <h3 className="text-white h4 fw-semibold mb-2">Streaming Virtual</h3>
-                <p className="text-muted">
-                  Transmisión en vivo en alta definición. Pensado para que disfrutes de tus artistas o conferencias favoritas con opciones <strong>Streaming</strong> o <strong>All Access</strong>.
-                </p>
-                <ul className="modality-features-list list-unstyled mt-3 mb-0 text-white-50">
-                  <li><BsCheckCircleFill className="text-cyan me-2" /> Audio y video en alta calidad HD.</li>
-                  <li><BsCheckCircleFill className="text-cyan me-2" /> Acceso instantáneo desde cualquier dispositivo.</li>
-                </ul>
+
+                <div className="ticket-tiers-box p-3 rounded" style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                  <span className="text-white small d-block mb-2 text-uppercase fw-bold tracking-wider"></span>
+                  <div className="d-flex gap-2 flex-wrap">
+                    <span className="badge px-3 py-2 fs-6" style={{ background: 'rgba(59, 130, 246, 0.25)', color: '#93c5fd', border: '1px solid #3b82f6' }}>STREAMING</span>
+                    <span className="badge px-3 py-2 fs-6" style={{ background: 'rgba(6, 182, 212, 0.25)', color: '#67e8f9', border: '1px solid #06b6d4' }}>ALL ACCESS (4K / BACKSTAGE)</span>
+                  </div>
+                </div>
               </div>
             </Col>
           </Row>
@@ -285,10 +307,10 @@ const Dashboard = ({ userName }) => {
             <div className="row align-items-center g-4">
               <Col xs={12} lg={4}>
                 <div className="benefits-header">
-                  <span className="badge bg-purple-glow text-purple mb-2">BENEFICIOS BIPASS</span>
+                  <span className="badge bg-purple-glow text-purple mb-2">VALOR AGREGADO BIPASS</span>
                   <h3 className="text-white fw-bold display-6">¿Por qué elegir nuestra plataforma?</h3>
                   <p className="text-muted mt-2">
-                    Diseñamos un sistema pensado para que nunca te quedes afuera de una experiencia.
+                    Unimos organizadores y espectadores mediante tecnología robusta, transparente y centrada en las personas.
                   </p>
                 </div>
               </Col>
@@ -296,49 +318,49 @@ const Dashboard = ({ userName }) => {
               <Col xs={12} lg={8}>
                 <Row className="g-3">
                   <Col xs={12} sm={6}>
-                    <div className="benefit-item-card p-3">
+                    <div className="benefit-item-card p-3 h-100">
                       <div className="benefit-icon mb-2 text-warning">
-                        <BsArrowRepeat size={28} />
+                        <BsArrowRepeat size={26} />
                       </div>
-                      <h5 className="text-white fw-semibold mb-1">Garantía de Asistencia</h5>
+                      <h5 className="text-white fw-semibold mb-1">Garantía de Flexibilidad</h5>
                       <p className="text-muted small mb-0">
-                        ¿Surgió un imprevisto y no podés asistir en persona? Cambiá o activá tu acceso virtual para ver el evento en vivo sin perderte nada.
+                        ¿Surgió un imprevisto? Cambiá o activá tu pase a streaming virtual para disfrutar el evento sin perderte nada.
                       </p>
                     </div>
                   </Col>
 
                   <Col xs={12} sm={6}>
-                    <div className="benefit-item-card p-3">
+                    <div className="benefit-item-card p-3 h-100">
                       <div className="benefit-icon mb-2 text-success">
-                        <BsShieldCheck size={28} />
+                        <BsShieldCheck size={26} />
                       </div>
                       <h5 className="text-white fw-semibold mb-1">Cero Reventa Falsa</h5>
                       <p className="text-muted small mb-0">
-                        Tickets vinculados a tu cuenta de usuario con validación en tiempo real.
+                        Tickets vinculados de forma unívoca a tu perfil de usuario con control de acceso validado en tiempo real.
                       </p>
                     </div>
                   </Col>
 
                   <Col xs={12} sm={6}>
-                    <div className="benefit-item-card p-3">
+                    <div className="benefit-item-card p-3 h-100">
                       <div className="benefit-icon mb-2 text-info">
-                        <BsLightningChargeFill size={28} />
+                        <BsLightningChargeFill size={26} />
                       </div>
                       <h5 className="text-white fw-semibold mb-1">Confirmación Instantánea</h5>
                       <p className="text-muted small mb-0">
-                        Comprás y tenés tu entrada habilitada en tu panel en cuestión de segundos.
+                        Comprás tu entrada presencial o virtual y la tenés disponible en tu panel personal en segundos.
                       </p>
                     </div>
                   </Col>
 
                   <Col xs={12} sm={6}>
-                    <div className="benefit-item-card p-3">
+                    <div className="benefit-item-card p-3 h-100">
                       <div className="benefit-icon mb-2 text-primary">
-                        <BsStarFill size={28} />
+                        <BsStarFill size={26} />
                       </div>
-                      <h5 className="text-white fw-semibold mb-1">Atención VIP</h5>
+                      <h5 className="text-white fw-semibold mb-1">Soporte Técnico VIP</h5>
                       <p className="text-muted small mb-0">
-                        Soporte técnico dedicado antes y durante las transmisiones en vivo.
+                        Asistencia dedicada antes, durante y después de cada evento presencial o transmisión online.
                       </p>
                     </div>
                   </Col>
@@ -347,11 +369,10 @@ const Dashboard = ({ userName }) => {
             </div>
           </div>
         </section>
-
         <section id="catalogo" className="catalog-section">
           
           <div className="section-header mb-4">
-            <h2 className="section-title">ENTRADAS DISPONIBLES</h2>
+            <h2 className="section-title">CATÁLOGO DE ENTRADAS ACTIVAS</h2>
             <div className="section-title-line"></div>
           </div>
 
@@ -366,7 +387,7 @@ const Dashboard = ({ userName }) => {
                   <Form.Control
                     type="text"
                     className="custom-form-input"
-                    placeholder="Buscar tipo de entrada o evento..."
+                    placeholder="Buscar tipo de entrada (VIP, Streaming, General)..."
                     value={busqueda}
                     onChange={(e) => setBusqueda(e.target.value)}
                   />

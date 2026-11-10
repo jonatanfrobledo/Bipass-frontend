@@ -29,10 +29,8 @@ const customFetch = async (endpoint, options = {}) => {
     throw new Error(errorMessage);
   }
 
-  // RESPONSE 204
   if (response.status === 204) return null;
 
-  // Manejo de respuesta seguro para JSON, texto o números sueltos
   const contentType = response.headers.get("content-type");
   if (contentType && contentType.includes("application/json")) {
     return await response.json();
@@ -46,7 +44,6 @@ const customFetch = async (endpoint, options = {}) => {
   }
 };
 
-// --- AUTH ---
 export const login = async (credentials) => {
   const data = await customFetch('/Authentication/login', {
     method: 'POST',
@@ -60,7 +57,7 @@ export const login = async (credentials) => {
   return data;
 };
 
-// --- USERS ---
+
 export const register = (userData) =>
   customFetch('/Users/register', {
     method: 'POST',
@@ -75,21 +72,55 @@ export const updateMyProfile = (userData) =>
     body: JSON.stringify(userData),
   });
 
-// --- EVENTS / TICKETS ---
+
+export const getUsers = () => customFetch('/Users');
+
+export const updateUser = (id, userData) =>
+  customFetch(`/Users/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      phoneNumber: userData.phoneNumber || "No especificado",
+      role: userData.role
+    }),
+  });
+
+export const deleteUser = (id) =>
+  customFetch(`/Users/${id}`, {
+    method: 'DELETE',
+  });
+
+
 export const getEvents = () => customFetch('/Events');
 export const getTickets = () => customFetch('/Events');
-
-// Funciones para el proceso de Checkout
 export const getEventById = (id) => customFetch(`/Events/${id}`);
 export const getTicketTypesByEvent = (eventId) => customFetch(`/Events/${eventId}/tickets`);
 
-// --- ORDERS ---
+export const createEvent = (eventData) =>
+  customFetch('/Events', {
+    method: 'POST',
+    body: JSON.stringify(eventData),
+  });
+
+export const updateEvent = (id, eventData) =>
+  customFetch(`/Events/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(eventData),
+  });
+
+export const deleteEvent = (id) =>
+  customFetch(`/Events/${id}`, {
+    method: 'DELETE',
+  });
+
+
 export const createOrder = (orderData) =>
   customFetch('/Orders', {
     method: 'POST',
     body: JSON.stringify(orderData),
   });
-
 
 export const createPaymentPreference = (orderData) =>
   customFetch('/Orders/create-preference', {
@@ -99,7 +130,12 @@ export const createPaymentPreference = (orderData) =>
 
 export const getMyOrders = () => customFetch('/Orders/my-orders');
 
-// --- TEST CONNECTION ---
+
+export const approveOrder = (orderId) =>
+  customFetch(`/Orders/approve/${orderId}`, {
+    method: 'POST',
+  });
+
 export const testConnection = () => customFetch('/Users/test');
 
 export default customFetch;

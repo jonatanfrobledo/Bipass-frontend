@@ -1,4 +1,4 @@
-/* Container Principal */
+
 .mp-step-container {
   display: flex;
   justify-content: center;
@@ -113,7 +113,6 @@
   gap: 0.4rem;
 }
 
-/* Link de retroceso */
 .mp-back-link {
   background: transparent;
   border: none;
@@ -128,7 +127,6 @@
   color: #ffffff;
 }
 
-/* Animaciones */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -149,7 +147,6 @@
   }
 }
 
-/* Responsive */
 @media (max-width: 480px) {
   .mp-card-glass {
     padding: 1.8rem 1.2rem;
